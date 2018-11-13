@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дмитрий Лобасов](https://up.htmlacademy.ru/javascript/16/user/581613).
-* Наставник: `Неизвестно`.
+* Наставник: Денис Быков.
 
 ---
 
