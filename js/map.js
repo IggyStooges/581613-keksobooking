@@ -1,30 +1,30 @@
 'use strict';
 
-var arrObjects = [];
-var ARR_OBJECTS_LENGTH = 8;
-var arrTitle = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
-var arrType = ['palace', 'flat', 'house', 'bungalo'];
-var arrCheckin = ['12:00', '13:00', '14:00'];
-var arrCheckout = ['12:00', '13:00', '14:00'];
-var arrFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var arrRandomFeatures = [];
-var arrRandomPhotos = [];
-var arrPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var MAX_PRICE = 1000000;
 var MIN_PRICE = 1000;
 var MAX_ROOMS = 5;
 var MIN_ROOMS = 1;
 var MAX_Y_COORDINATE = 630;
 var MIN_Y_COORDINATE = 130;
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
+var CARDS_LENGTH = 8;
+
+var cards = [];
+var titles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
+var types = ['palace', 'flat', 'house', 'bungalo'];
+var checkins = ['12:00', '13:00', '14:00'];
+var checkouts = ['12:00', '13:00', '14:00'];
+var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var randomFeatures = [];
+var randomPhotos = [];
+var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 
 var mapPinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
-
-var PIN_WIDTH = 50;
-var PIN_HEIGHT = 70;
 
 var cardTemplate = document.querySelector('#card')
   .content
@@ -49,23 +49,23 @@ var getArrayRandom = function (arrLength, arrRandom, arr) {
   return arrRandom;
 };
 
-var getObject = function (imgNumber) {
+var getAdverCardData = function (imgNumber) {
   var generatedObject = {
     author: {
       avatar: 'img/avatars/user' + imgNumber + '.png',
     },
     offer: {
-      title: arrTitle[getRandomNumber(arrTitle.length, 0)],
+      title: titles[getRandomNumber(titles.length, 0)],
       address: getRandomNumber(blockWidth, 0) + ', ' + getRandomNumber(MAX_Y_COORDINATE, MIN_Y_COORDINATE),
       price: getRandomNumber(MAX_PRICE, MIN_PRICE),
-      type: arrType[getRandomNumber(arrType.length, 0)],
+      type: types[getRandomNumber(types.length, 0)],
       rooms: getRandomNumber(MAX_ROOMS, MIN_ROOMS),
       guests: getRandomNumber(MAX_ROOMS * 2, MIN_ROOMS),
-      checkin: arrCheckin[getRandomNumber(arrCheckin.length, 0)],
-      checkout: arrCheckout[getRandomNumber(arrCheckout.length, 0)],
-      features: getArrayRandom(getRandomNumber(arrFeatures.length, 1), arrRandomFeatures, arrFeatures),
+      checkin: checkins[getRandomNumber(checkins.length, 0)],
+      checkout: checkouts[getRandomNumber(checkouts.length, 0)],
+      features: getArrayRandom(getRandomNumber(features.length, 1), randomFeatures, features),
       description: '',
-      photos: getArrayRandom(arrPhotos.length, arrRandomPhotos, arrPhotos)
+      photos: getArrayRandom(photos.length, randomPhotos, photos)
     },
     location: {
       x: getRandomNumber(blockWidth, 0),
@@ -81,7 +81,7 @@ var getArrayObject = function (arr, arrLength) {
     if (imgNumber > 9) {
       imgNumber = (i + 1);
     }
-    arr[i] = getObject(imgNumber);
+    arr[i] = getAdverCardData(imgNumber);
   }
   return arr;
 };
@@ -177,6 +177,6 @@ var createCard = function (arr) {
   map.insertBefore(cardElement, mapFiltersContainer);
 };
 
-getArrayObject(arrObjects, ARR_OBJECTS_LENGTH);
-createPinElement(arrObjects);
-createCard(arrObjects);
+getArrayObject(cards, CARDS_LENGTH);
+createPinElement(cards);
+createCard(cards);
