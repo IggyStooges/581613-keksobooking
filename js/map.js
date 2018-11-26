@@ -17,6 +17,12 @@ var checkins = ['12:00', '13:00', '14:00'];
 var checkouts = ['12:00', '13:00', '14:00'];
 var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var apartmentType = {
+  flat: 'квартира',
+  bungalo: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец'
+};
 var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var cardTemplate = document.querySelector('#card')
@@ -37,6 +43,24 @@ var popupDescription = cardElement.querySelector('.popup__description');
 var popupPhotos = cardElement.querySelector('.popup__photos');
 var popupPhoto = cardElement.querySelector('.popup__photo');
 var popupAvatar = cardElement.querySelector('.popup__avatar');
+
+var getRandomNumber = function (max, min) {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
+
+var cutRandomElementOfArray = function (arr) {
+  return arr.splice(getRandomNumber(arr.length - 1, 0), 1).join();
+};
+
+var generateArrayAddressesImages = function (numberOfImages) {
+  var arrayAddressesImages = [];
+  for (var i = 0; i < numberOfImages; i++) {
+    arrayAddressesImages.push('img/avatars/user0' + (i + 1) + '.png');
+  }
+  return arrayAddressesImages;
+};
+
+var arrayOfAddressesImages = generateArrayAddressesImages(CARDS_LENGTH);
 
 var generateDeclensionRooms = function (arr, currentIndex) {
   var roomsFor = ' комнаты для ';
@@ -62,16 +86,16 @@ var generateDeclensionGuests = function (arr, currentIndex) {
 var generateHouseType = function (arr, currentIndex) {
 
   if (arr[currentIndex].offer.type === 'flat') {
-    popupType.textContent = 'Квартира';
+    popupType.textContent = apartmentType.flat;
   }
   if (arr[currentIndex].offer.type === 'bungalo') {
-    popupType.textContent = 'Бунгало';
+    popupType.textContent = apartmentType.bungalo;
   }
   if (arr[currentIndex].offer.type === 'house') {
-    popupType.textContent = 'Дом';
+    popupType.textContent = apartmentType.house;
   }
   if (arr[currentIndex].offer.type === 'palace') {
-    popupType.textContent = 'Дворец';
+    popupType.textContent = apartmentType.palace;
   }
 };
 
@@ -92,10 +116,6 @@ var mapPinTemplate = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 
-var getRandomNumber = function (max, min) {
-  return Math.floor(Math.random() * (max - min)) + min;
-};
-
 var getArrayRandom = function (arrLength, arr) {
   var arrRandom = [];
   for (var i = 0; i < arrLength; i++) {
@@ -108,10 +128,10 @@ var getArrayRandom = function (arrLength, arr) {
   return arrRandom;
 };
 
-var getAdverCardData = function (imgNumber) {
+var getAdverCardData = function (arrayOfImages) {
   var generatedObject = {
     author: {
-      avatar: 'img/avatars/user' + imgNumber + '.png',
+      avatar: cutRandomElementOfArray(arrayOfImages),
     },
     offer: {
       title: titles[getRandomNumber(titles.length, 0)],
@@ -136,11 +156,7 @@ var getAdverCardData = function (imgNumber) {
 
 var getArrayCard = function (arrLength) {
   for (var i = 0; i < arrLength; i++) {
-    var imgNumber = '0' + (i + 1);
-    if (imgNumber > 9) {
-      imgNumber = (i + 1);
-    }
-    cards[i] = getAdverCardData(imgNumber);
+    cards.push(getAdverCardData(arrayOfAddressesImages));
   }
   return cards;
 };
