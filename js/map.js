@@ -86,16 +86,16 @@ var generateDeclensionGuests = function (arr, currentIndex) {
 var generateHouseType = function (arr, currentIndex) {
 
   if (arr[currentIndex].offer.type === 'flat') {
-    popupType.textContent = apartmentType.FLAT;
+    popupType.textContent = ApartmentType.FLAT;
   }
   if (arr[currentIndex].offer.type === 'bungalo') {
-    popupType.textContent = apartmentType.BUNGALO;
+    popupType.textContent = ApartmentType.BUNGALO;
   }
   if (arr[currentIndex].offer.type === 'house') {
-    popupType.textContent = apartmentType.HOUSE;
+    popupType.textContent = ApartmentType.HOUSE;
   }
   if (arr[currentIndex].offer.type === 'palace') {
-    popupType.textContent = apartmentType.PALACE;
+    popupType.textContent = ApartmentType.PALACE;
   }
 };
 
