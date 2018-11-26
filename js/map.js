@@ -17,11 +17,11 @@ var checkins = ['12:00', '13:00', '14:00'];
 var checkouts = ['12:00', '13:00', '14:00'];
 var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var apartmentType = {
-  flat: 'квартира',
-  bungalo: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец'
+var ApartmentType = {
+  FLAT: 'квартира',
+  BUNGALO: 'Бунгало',
+  HOUSE: 'Дом',
+  PALACE: 'Дворец'
 };
 var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
@@ -86,16 +86,16 @@ var generateDeclensionGuests = function (arr, currentIndex) {
 var generateHouseType = function (arr, currentIndex) {
 
   if (arr[currentIndex].offer.type === 'flat') {
-    popupType.textContent = apartmentType.flat;
+    popupType.textContent = apartmentType.FLAT;
   }
   if (arr[currentIndex].offer.type === 'bungalo') {
-    popupType.textContent = apartmentType.bungalo;
+    popupType.textContent = apartmentType.BUNGALO;
   }
   if (arr[currentIndex].offer.type === 'house') {
-    popupType.textContent = apartmentType.house;
+    popupType.textContent = apartmentType.HOUSE;
   }
   if (arr[currentIndex].offer.type === 'palace') {
-    popupType.textContent = apartmentType.palace;
+    popupType.textContent = apartmentType.PALACE;
   }
 };
 
