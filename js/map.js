@@ -164,8 +164,6 @@ var createArrayCard = function (arrLength) {
   return cards;
 };
 
-map.classList.remove('map--faded');
-
 var createPinElement = function (arr) {
   var fragment = document.createDocumentFragment();
 
