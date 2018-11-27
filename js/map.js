@@ -40,6 +40,12 @@ var popupDescription = cardElement.querySelector('.popup__description');
 var popupPhotos = cardElement.querySelector('.popup__photos');
 var popupPhoto = cardElement.querySelector('.popup__photo');
 var popupAvatar = cardElement.querySelector('.popup__avatar');
+var fieldsets = document.getElementsByTagName('fieldset');
+var mapPinMain = document.querySelector('.map__pin--main');
+var mapFilters = document.querySelector('.map__filters');
+var adForm = document.querySelector('.ad-form');
+var inputAddress = document.getElementById('address');
+var mapPin = document.querySelectorAll('.map__pin');
 
 var getRandomNumber = function (max, min) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -209,5 +215,31 @@ var createCard = function (arrayElement) {
   map.insertBefore(cardElement, mapFiltersContainer);
 };
 
-createPinElement(createArrayCard(CARDS_LENGTH));
-createCard(createArrayCard(CARDS_LENGTH)[0]);
+var getDisabledElement = function (collection, disabled) {
+  for (var i = 0; i < collection.length; i++) {
+    collection[i].disabled = disabled;
+  }
+};
+
+inputAddress.value = '570, 350';
+getDisabledElement(fieldsets, true);
+mapFilters.classList.add('map__filters--disabled');
+
+mapPinMain.addEventListener('mouseup', function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  getDisabledElement(fieldsets, false);
+  createPinElement(createArrayCard(CARDS_LENGTH));
+  for (var i = 0; i <= mapPin.length; i++) {
+    // var pin = mapPin[i];
+    // if (!pin.classlist.contains('map__pin--main')) {
+
+    mapPin[i].addEventListener('click', function () {
+      // evt.preventDefault();
+      createCard(createArrayCard(CARDS_LENGTH)[0]);
+
+    });
+
+    // }
+  }
+});
