@@ -33,7 +33,6 @@ var mapFiltersContainer = cardElement.querySelector('.map__filters-container');
 var popupTitle = cardElement.querySelector('.popup__title');
 var popupTextAddress = cardElement.querySelector('.popup__text--address');
 var popupTextPrice = cardElement.querySelector('.popup__text--price');
-var popupType = cardElement.querySelector('.popup__type');
 var popupTextCapacity = cardElement.querySelector('.popup__text--capacity');
 var popupTextTime = cardElement.querySelector('.popup__text--time');
 var popupFeaturesList = cardElement.querySelectorAll('.popup__feature');
@@ -48,16 +47,13 @@ var getRandomNumber = function (max, min) {
 
 var generateArrayAddressesImages = function (numberOfImages) {
   var arrayAddressesImages = [];
-  for (var i = 0; i < numberOfImages; i++) {
-    arrayAddressesImages.push('img/avatars/user0' + (i + 1) + '.png');
-    if (i > 9) {
-      arrayAddressesImages.push('img/avatars/user' + (i + 1) + '.png');
-    }
+  for (var i = 1; i <= numberOfImages; i++) {
+    var filename = i < 9 ? '0' + i : i;
+    var pathname = 'img/avatars/user' + filename + '.png';
+    arrayAddressesImages.push(pathname);
   }
   return arrayAddressesImages;
 };
-
-var arrayOfAddressesImages = generateArrayAddressesImages(CARDS_LENGTH);
 
 var generateDeclensionRooms = function (arrayElement) {
   var roomsFor = ' комнаты для ';
@@ -82,6 +78,7 @@ var generateDeclensionGuests = function (arrayElement) {
 
 var generateHouseType = function (arrayElement) {
   var offerType = arrayElement.offer.type;
+  var popupType = cardElement.querySelector('.popup__type');
 
   if (offerType === 'flat') {
     popupType.textContent = ApartmentType.FLAT;
@@ -129,10 +126,14 @@ var getArrayRandom = function (arrLength, arr) {
   return arrRandom;
 };
 
-var getAdverCardData = function (arrayOfImages) {
+var arrayOfAddressesImages = generateArrayAddressesImages(CARDS_LENGTH);
+
+var arrayOfAddressesImagesRandom = getArrayRandom(arrayOfAddressesImages.length, arrayOfAddressesImages);
+
+var getAdverCardData = function (indexOfImage) {
   var generatedObject = {
     author: {
-      avatar: getArrayRandom(arrayOfImages.length, arrayOfImages)[getRandomNumber(arrayOfImages.length, 1)]
+      avatar: arrayOfAddressesImagesRandom[indexOfImage]
     },
     offer: {
       title: titles[getRandomNumber(titles.length, 0)],
@@ -155,10 +156,10 @@ var getAdverCardData = function (arrayOfImages) {
   return (generatedObject);
 };
 
-var getArrayCard = function (arrLength) {
+var createArrayCard = function (arrLength) {
   var cards = [];
   for (var i = 0; i < arrLength; i++) {
-    cards.push(getAdverCardData(arrayOfAddressesImages, i));
+    cards.push(getAdverCardData(i));
   }
   return cards;
 };
@@ -210,5 +211,5 @@ var createCard = function (arrayElement) {
   map.insertBefore(cardElement, mapFiltersContainer);
 };
 
-createPinElement(getArrayCard(CARDS_LENGTH));
-createCard(getArrayCard(CARDS_LENGTH)[0]);
+createPinElement(createArrayCard(CARDS_LENGTH));
+createCard(createArrayCard(CARDS_LENGTH)[0]);
