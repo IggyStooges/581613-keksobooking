@@ -45,7 +45,6 @@ var mapPinMain = document.querySelector('.map__pin--main');
 var mapFilters = document.querySelector('.map__filters');
 var adForm = document.querySelector('.ad-form');
 var inputAddress = document.getElementById('address');
-var mapPin = document.querySelectorAll('.map__pin');
 
 var getRandomNumber = function (max, min) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -164,8 +163,9 @@ var getAdverCardData = function (indexOfImage) {
 
 var createArrayCard = function (arrLength) {
   var cards = [];
+
   for (var i = 0; i < arrLength; i++) {
-    cards.push(getAdverCardData(i));
+    cards[i] = getAdverCardData(i);
   }
   return cards;
 };
@@ -213,6 +213,7 @@ var createCard = function (arrayElement) {
   renderPictures(arrayElement);
   popupAvatar.src = arrayElement.author.avatar;
   map.insertBefore(cardElement, mapFiltersContainer);
+  return cardElement;
 };
 
 var getDisabledElement = function (collection, disabled) {
@@ -221,25 +222,30 @@ var getDisabledElement = function (collection, disabled) {
   }
 };
 
-inputAddress.value = '570, 350';
+var coordinateAddressX = parseInt(mapPinMain.style.left, 10) + mapPinMain.offsetWidth / 2;
+var coordinateAddressY = parseInt(mapPinMain.style.top, 10) + mapPinMain.offsetHeight / 2;
+
+var coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
+inputAddress.value = coordinateAddress;
 getDisabledElement(fieldsets, true);
 mapFilters.classList.add('map__filters--disabled');
 
-mapPinMain.addEventListener('mouseup', function () {
+var activateMap = function () {
+
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   getDisabledElement(fieldsets, false);
   createPinElement(createArrayCard(CARDS_LENGTH));
-  for (var i = 0; i <= mapPin.length; i++) {
-    // var pin = mapPin[i];
-    // if (!pin.classlist.contains('map__pin--main')) {
+  var cards = createArrayCard(CARDS_LENGTH);
 
+  var mapPin = mapPins.querySelectorAll('.map__pin:not(:first-of-type)');
+
+  for (var i = 0; i < mapPin.length; i++) {
+    var card = cards[getRandomNumber(mapPin.length, i)];
     mapPin[i].addEventListener('click', function () {
-      // evt.preventDefault();
-      createCard(createArrayCard(CARDS_LENGTH)[0]);
-
+      console.log(card);
+      createCard(card);
     });
-
-    // }
   }
-});
+};
+mapPinMain.addEventListener('mouseup', activateMap);
