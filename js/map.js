@@ -246,5 +246,6 @@ var activateMap = function () {
       createCard(card);
     });
   }
+  mapPinMain.removeEventListener('click', activateMap);
 };
-mapPinMain.addEventListener('mouseup', activateMap);
+mapPinMain.addEventListener('click', activateMap);
