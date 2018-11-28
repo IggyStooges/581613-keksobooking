@@ -243,7 +243,6 @@ var activateMap = function () {
   for (var i = 0; i < mapPin.length; i++) {
     var card = cards[getRandomNumber(mapPin.length, i)];
     mapPin[i].addEventListener('click', function () {
-      console.log(card);
       createCard(card);
     });
   }
