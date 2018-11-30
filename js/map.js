@@ -14,7 +14,7 @@ var titles = ['Большая уютная квартира', 'Маленька�
 var types = ['palace', 'flat', 'house', 'bungalo'];
 var checkins = ['12:00', '13:00', '14:00'];
 var checkouts = ['12:00', '13:00', '14:00'];
-var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var ApartmentType = {
   FLAT: 'квартира',
@@ -42,7 +42,7 @@ var popupPhotos = cardElement.querySelector('.popup__photos');
 var popupPhoto = cardElement.querySelector('.popup__photo');
 var popupAvatar = cardElement.querySelector('.popup__avatar');
 var fieldsets = document.getElementsByTagName('fieldset');
-var mapPinMain = document.querySelector('.map__pin--main');
+var mainPinMap = document.querySelector('.map__pin--main');
 var mapFilters = document.querySelector('.map__filters');
 var adForm = document.querySelector('.ad-form');
 var inputAddress = document.getElementById('address');
@@ -115,9 +115,10 @@ var renderPictures = function (arrayElement) {
 
 var renderFeatures = function (arrayElement) {
   popupFeaturesList.innerHTML = '';
-  for (var i = 0; i < arrayElement.offer.features.length; i++) {
+  var offerFeatures = arrayElement.offer.features;
+  for (var i = 0; i < offerFeatures.length; i++) {
     var newElement = popupFeature.cloneNode(true);
-    newElement.className = 'popup__feature popup__feature' + '--' + arrayElement.offer.features[i];
+    newElement.className = 'popup__feature popup__feature' + '--' + offerFeatures[i];
     popupFeaturesList.appendChild(newElement);
   }
 
@@ -157,7 +158,7 @@ var getAdverCardData = function (indexOfImage) {
       guests: getRandomNumber(MAX_ROOMS * 2, MIN_ROOMS),
       checkin: checkins[getRandomNumber(checkins.length, 0)],
       checkout: checkouts[getRandomNumber(checkouts.length, 0)],
-      features: getArrayRandom(getRandomNumber(FEATURES.length, 1), FEATURES),
+      features: getArrayRandom(getRandomNumber(features.length, 1), features),
       description: '',
       photos: getArrayRandom(photos.length, photos)
     },
@@ -173,7 +174,7 @@ var createArrayCard = function (arrLength) {
   var cards = [];
 
   for (var i = 0; i < arrLength; i++) {
-    cards[i] = getAdverCardData(i);
+    cards.push(getAdverCardData(arrayOfAddressesImages, i));
   }
   return cards;
 };
@@ -220,18 +221,18 @@ var createCard = function (arrayElement) {
 
 };
 
-var getDisabledElement = function (collection, disabled) {
+var setVisibleElement = function (collection, disabled) {
   for (var i = 0; i < collection.length; i++) {
     collection[i].disabled = disabled;
   }
 };
 
-var coordinateAddressX = parseInt(mapPinMain.style.left, 10) + mapPinMain.offsetWidth / 2;
-var coordinateAddressY = parseInt(mapPinMain.style.top, 10) + mapPinMain.offsetHeight / 2;
+var coordinateAddressX = parseInt(mainPinMap.style.left, 10) + mainPinMap.offsetWidth / 2;
+var coordinateAddressY = parseInt(mainPinMap.style.top, 10) + mainPinMap.offsetHeight / 2;
 
 var coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
 inputAddress.value = coordinateAddress;
-getDisabledElement(fieldsets, true);
+setVisibleElement(fieldsets, true);
 mapFilters.classList.add('map__filters--disabled');
 
 var createPopup = function (currentPin, currentIndex) {
@@ -259,11 +260,11 @@ var activateMap = function () {
 
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
-  getDisabledElement(fieldsets, false);
+  setVisibleElement(fieldsets, false);
   createPinElement(createArrayCard(CARDS_LENGTH));
 
-  mapPinMain.removeEventListener('click', activateMap);
+  mainPinMap.removeEventListener('click', activateMap);
   createPopupOnPinCLick(createArrayCard(CARDS_LENGTH));
 };
 
-mapPinMain.addEventListener('click', activateMap);
+mainPinMap.addEventListener('click', activateMap);
