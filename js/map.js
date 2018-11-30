@@ -174,7 +174,7 @@ var createArrayCard = function (arrLength) {
   var cards = [];
 
   for (var i = 0; i < arrLength; i++) {
-    cards.push(getAdverCardData(arrayOfAddressesImages, i));
+    cards.push(getAdverCardData(i));
   }
   return cards;
 };
