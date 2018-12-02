@@ -10,7 +10,6 @@ var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var CARDS_LENGTH = 8;
 var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 
 var titles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var types = ['palace', 'flat', 'house', 'bungalo'];
@@ -248,31 +247,26 @@ var openPopup = function (currentIndex) {
   return popup;
 };
 
-var closePopup = function (currentIndex) {
-  var closebutton = openPopup(currentIndex).querySelector('.popup__close');
+var closePopup = function () {
+  var popup = document.querySelector('.popup');
+  var closebutton = popup.querySelector('.popup__close');
+  if (popup.classList.contains('hidden')) {
+    popup.classList.remove('hidden');
+  }
   closebutton.addEventListener('click', function () {
-    map.removeChild(openPopup(currentIndex));
+    popup.classList.add('hidden');
+    closebutton.removeEventListener('click', closePopup);
   });
-  closebutton.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      closePopup(currentIndex);
-    }
-  });
+
 
 };
 
 var createPopup = function (currentPin, currentIndex) {
   currentPin.addEventListener('click', function () {
     openPopup(currentIndex);
-    closePopup(currentIndex);
+    closePopup();
     currentPin.removeEventListener('click', createPopup);
   });
-  currentPin.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
-      createPopup();
-    }
-  });
-
 };
 
 var createPopupOnPinCLick = function (arr) {
