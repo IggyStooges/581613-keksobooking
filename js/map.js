@@ -288,3 +288,32 @@ var activateMap = function () {
 };
 
 mapPinMain.addEventListener('click', activateMap);
+
+var typeSelect = document.querySelector('#type');
+
+var typeOption = typeSelect.querySelectorAll('option');
+var priceInput = document.querySelector('#price');
+
+typeSelect.addEventListener('change', function () {
+  var selectedOptionIndex = typeSelect.options.selectedIndex;
+
+  if (typeOption[selectedOptionIndex].text === 'Бунгало') {
+    priceInput.min = '0';
+    priceInput.placeholder = '0';
+  }
+
+  if (typeOption[selectedOptionIndex].text === 'Квартира') {
+    priceInput.min = '1000';
+    priceInput.placeholder = '1000';
+  }
+
+  if (typeOption[selectedOptionIndex].text === 'Дом') {
+    priceInput.min = '5000';
+    priceInput.placeholder = '5000';
+  }
+
+  if (typeOption[selectedOptionIndex].text === 'Дворец') {
+    priceInput.min = '10000';
+    priceInput.placeholder = '10000';
+  }
+});
