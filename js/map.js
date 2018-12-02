@@ -289,8 +289,16 @@ var activateMap = function () {
 
 mapPinMain.addEventListener('click', activateMap);
 
-var typeSelect = document.querySelector('#type');
+document.addEventListener('keydown', function (evt) {
+  var popup = map.querySelector('.popup');
+  if (popup) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      map.removeChild(popup);
+    }
+  }
+});
 
+var typeSelect = document.querySelector('#type');
 var typeOption = typeSelect.querySelectorAll('option');
 var priceInput = document.querySelector('#price');
 
@@ -316,4 +324,58 @@ typeSelect.addEventListener('change', function () {
     priceInput.min = '10000';
     priceInput.placeholder = '10000';
   }
+});
+
+var timeIn = document.querySelector('#timein');
+var timeOut = document.querySelector('#timeout');
+
+var changeTime = function (firstSelect, secondSelect) {
+  firstSelect.addEventListener('change', function () {
+    secondSelect.selectedIndex = firstSelect.selectedIndex;
+  });
+};
+
+changeTime(timeIn, timeOut);
+changeTime(timeOut, timeIn);
+
+var roomNumber = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');
+
+var compareRooms = function (select) {
+  select.setCustomValidity('Выберите');
+  select.addEventListener('change', function () {
+    select.setCustomValidity('');
+
+    var capacityInt = parseInt(capacity.value, 10);
+    var roomInt = parseInt(roomNumber.value, 10);
+
+    if (capacityInt > roomInt && capacityInt > 0) {
+      select.setCustomValidity('Выберите соответсвующие значение');
+    } else if (roomInt === 100 && capacityInt > 0) {
+      select.setCustomValidity('100 не для гостей');
+    } else if (roomInt !== 100 && capacityInt === 0) {
+      select.setCustomValidity('Выберите количество гостей');
+    }
+
+  });
+};
+
+compareRooms(roomNumber);
+compareRooms(capacity);
+
+var adFormSuccesTemplate = document.querySelector('#success')
+  .content
+  .querySelector('.success');
+
+adForm.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+  var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
+  var element = document.querySelector('.success');
+  if (element) {
+    adForm.removeChild(element);
+  }
+  adForm.appendChild(adFormSuccesWindow);
+  adFormSuccesWindow.addEventListener('click', function () {
+    adForm.removeChild(adFormSuccesWindow);
+  });
 });
