@@ -302,29 +302,36 @@ var changePriceByType = function () {
   var typeSelect = document.querySelector('#type');
   var typeOption = typeSelect.querySelectorAll('option');
   var priceInput = document.querySelector('#price');
+  var selectedOptionIndex = typeSelect.options.selectedIndex;
 
+  var minPrice = {
+    bungalo: '0',
+    flat: '1000',
+    house: '5000',
+    palace: '10000'
+  };
+
+  if (typeOption[selectedOptionIndex].text === 'Бунгало') {
+    priceInput.min = minPrice.bungalo;
+    priceInput.placeholder = minPrice.bungalo;
+  }
+
+  if (typeOption[selectedOptionIndex].text === 'Квартира') {
+    priceInput.min = minPrice.flat;
+    priceInput.placeholder = minPrice.flat;
+  }
+
+  if (typeOption[selectedOptionIndex].text === 'Дом') {
+    priceInput.min = minPrice.house;
+    priceInput.placeholder = minPrice.house;
+  }
+
+  if (typeOption[selectedOptionIndex].text === 'Дворец') {
+    priceInput.min = minPrice.palace;
+    priceInput.placeholder = minPrice.palace;
+  }
   typeSelect.addEventListener('change', function () {
-    var selectedOptionIndex = typeSelect.options.selectedIndex;
-
-    if (typeOption[selectedOptionIndex].text === 'Бунгало') {
-      priceInput.min = '0';
-      priceInput.placeholder = '0';
-    }
-
-    if (typeOption[selectedOptionIndex].text === 'Квартира') {
-      priceInput.min = '1000';
-      priceInput.placeholder = '1000';
-    }
-
-    if (typeOption[selectedOptionIndex].text === 'Дом') {
-      priceInput.min = '5000';
-      priceInput.placeholder = '5000';
-    }
-
-    if (typeOption[selectedOptionIndex].text === 'Дворец') {
-      priceInput.min = '10000';
-      priceInput.placeholder = '10000';
-    }
+    changePriceByType();
   });
 };
 
@@ -350,16 +357,16 @@ var compareRooms = function (select) {
     var roomInt = parseInt(roomNumber.value, 10);
 
     if (capacityInt > roomInt && capacityInt > 0) {
-      select.setCustomValidity('Выберите соответсвующие значение');
+      select.setCustomValidity('Выберите соответсвующие значение (количество гостей не может превышать количество комнат)');
     } else if (roomInt === 100 && capacityInt > 0) {
-      select.setCustomValidity('100 не для гостей');
+      select.setCustomValidity('100 комнат не для гостей');
     } else if (roomInt !== 100 && capacityInt === 0) {
       select.setCustomValidity('Выберите количество гостей');
     }
   });
 };
 
-var createSuccessMesage = function () {
+var createSuccessMessage = function () {
 
   var adFormSuccesTemplate = document.querySelector('#success')
     .content
@@ -376,7 +383,7 @@ var createSuccessMesage = function () {
     adFormSuccesWindow.addEventListener('click', function () {
       adForm.removeChild(adFormSuccesWindow);
     });
-    adFormSuccesWindow.addEventListener('keypress', function (escEvt) {
+    window.addEventListener('keypress', function (escEvt) {
       if (escEvt.keyCode === ESC_KEYCODE) {
         adForm.removeChild(adFormSuccesWindow);
       }
@@ -391,51 +398,54 @@ var sendingForm = function () {
   changeTime(timeOut, timeIn);
   compareRooms(roomNumber);
   compareRooms(capacity);
-  createSuccessMesage();
+  createSuccessMessage();
 };
 
 
 sendingForm();
-
+moveMainPin();
 inputAddress.value = coordinateAddress;
 
-mainPinMap.addEventListener('mousedown', function (evt) {
-  evt.preventDefault();
-  var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
-  };
+var moveMainPin = function () {
 
-  var onMouseMove = function (moveEvt) {
-    moveEvt.preventDefault();
-    var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
+  mainPinMap.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
     };
-    startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+      var newCoordY = mainPinMap.offsetTop - shift.y;
+      var newCoordX = mainPinMap.offsetLeft - shift.x;
+      if (newCoordY <= mapHeight - mainPinMap.offsetHeight && newCoordY >= MIN_COORDS) {
+        mainPinMap.style.top = newCoordY + 'px';
+      }
+      mainPinMap.style.top = mainPinMap.offsetTop + 'px';
+      if (newCoordX <= blockWidth - mainPinMap.offsetWidth && newCoordX >= MIN_COORDS) {
+        mainPinMap.style.left = newCoordX + 'px';
+      }
+      mainPinMap.style.left = mainPinMap.offsetLeft + 'px';
     };
-    var newCoordY = mainPinMap.offsetTop - shift.y;
-    var newCoordX = mainPinMap.offsetLeft - shift.x;
-    if (newCoordY <= mapHeight - mainPinMap.offsetHeight && newCoordY >= MIN_COORDS) {
-      mainPinMap.style.top = newCoordY + 'px';
-    }
-    mainPinMap.style.top = mainPinMap.offsetTop + 'px';
-    if (newCoordX <= blockWidth - mainPinMap.offsetWidth && newCoordX >= MIN_COORDS) {
-      mainPinMap.style.left = newCoordX + 'px';
-    }
-    mainPinMap.style.left = mainPinMap.offsetLeft + 'px';
-  };
-  var onMouseUp = function (upEvt) {
-    upEvt.preventDefault();
-    coordinateAddressX = parseInt(mainPinMap.style.left, 10) + mainPinMap.offsetWidth / 2;
-    coordinateAddressY = parseInt(mainPinMap.style.top, 10) + mainPinMap.offsetHeight;
-    coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
-    inputAddress.value = coordinateAddress;
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  };
-  document.addEventListener('mousemove', onMouseMove);
-  document.addEventListener('mouseup', onMouseUp);
-});
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+      coordinateAddressX = parseInt(mainPinMap.style.left, 10) + mainPinMap.offsetWidth / 2;
+      coordinateAddressY = parseInt(mainPinMap.style.top, 10) + mainPinMap.offsetHeight;
+      coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
+      inputAddress.value = coordinateAddress;
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+};
