@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/normalize.css">
@@ -8,15 +7,17 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>Кексобукинг</title>
 </head>
-
 <body>
+
   <main>
     <div class="promo">
       <h1 class="promo__title visually-hidden">Keksobooking. Кексы по соседству</h1>
       <img src="img/keksobooking.svg" alt="Keksobooking. Кексы по соседству" width="215" height="45">
     </div>
+
     <!-- Карта объявлений -->
     <section class="map map--faded">
+
       <!-- Метки объявлений -->
       <div class="map__pins">
         <div class="map__overlay">
@@ -29,12 +30,11 @@
               <path d="M35,35m-23,0a23,23 0 1,1 46,0a23,23 0 1,1 -46,0" id="tophalf" />
             </defs>
             <ellipse cx="35" cy="35" rx="35" ry="35" fill="rgba(255, 86, 53, 0.7)" />
-            <text>
-              <textPath xlink:href="#tophalf" startOffset="0">Поставь меня куда-нибудь</textPath>
-            </text>
+            <text><textPath xlink:href="#tophalf" startOffset="0">Поставь меня куда-нибудь</textPath></text>
           </svg>
         </button>
       </div>
+
       <!-- Фильтрация объявлений -->
       <div class="map__filters-container">
         <form action="#" class="map__filters" autocomplete="off">
@@ -76,10 +76,11 @@
             <label class="map__feature map__feature--elevator" for="filter-elevator">Лифт</label>
             <input type="checkbox" name="features" value="conditioner" id="filter-conditioner" class="map__checkbox visually-hidden">
             <label class="map__feature map__feature--conditioner" for="filter-conditioner">Кондиционер</label>
-          </fieldset>
+           </fieldset>
         </form>
       </div>
     </section>
+
     <!-- Форма объявления -->
     <section class="notice">
       <h2 class="notice__title">Ваше объявление</h2>
@@ -94,9 +95,7 @@
               <input type="file" id="avatar" name="avatar" class="ad-form-header__input visually-hidden">
               <label class="ad-form-header__drop-zone" for="avatar">Загрузите или&nbsp;перетащите сюда фото</label>
             </div>
-            <p class="ad-form-header__info">Заполните все обязательные поля, назначьте цену, загрузите фотографии.
-              Придумайте интересное описание. Оно сделает объявление более живым и привлекательным. Получившееся
-              объявление должно давать гостям полное представление о вашем жилье.</p>
+            <p class="ad-form-header__info">Заполните все обязательные поля, назначьте цену, загрузите фотографии. Придумайте интересное описание. Оно сделает объявление более живым и привлекательным. Получившееся объявление должно давать гостям полное представление о вашем жилье.</p>
           </div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
@@ -182,18 +181,19 @@
           </div>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--submit">
-          <button class="ad-form__submit" type="submit">Опубликовать</button> или <button class="ad-form__reset" type="reset">очистить</button>
+          <button class="ad-form__submit" type="submit">Опубликовать</button>
+          или <button class="ad-form__reset" type="reset">очистить</button>
         </fieldset>
       </form>
     </section>
   </main>
+
   <footer class="footer container">
     <div class="footer__copyright copyright">
       <a class="copyright__link copyright__link--image" href="https://htmlacademy.ru/intensive/javascript">
         <img src="img/htmla-logo.svg" width="130" height="45" alt="HTML Academy" class="copyright__logo">
       </a>
-      <p>Сделано в <a class="copyright__link copyright__link--text" href="https://htmlacademy.ru/intensive/javascript">HTMLAcademy</a>
-        &copy; 2018</p>
+      <p>Сделано в <a class="copyright__link copyright__link--text" href="https://htmlacademy.ru/intensive/javascript">HTMLAcademy</a> &copy; 2018</p>
     </div>
     <ul class="footer__contacts contacts">
       <li><a href="https://twitter.com/htmlacademy_ru" class="contacts__link contacts__link--twitter">Twitter</a></li>
@@ -202,6 +202,7 @@
       <li><a href="https://vk.com/htmlacademy" class="contacts__link contacts__link--vk">VK</a></li>
     </ul>
   </footer>
+
   <!-- Модальное окно с информацией об объявлении -->
   <template id="card">
     <article class="map__card popup">
@@ -227,16 +228,19 @@
       </div>
     </article>
   </template>
+
   <!-- Метка объявления -->
   <template id="pin">
     <button type="button" class="map__pin" style="left: 200px; top: 400px;"><img src="img/avatars/user07.png" width="40" height="40" draggable="false" alt="Метка объявления"></button>
   </template>
+
   <!-- Сообщение об успешном создании объявления -->
   <template id="success">
     <div class="success">
       <p class="success__message">Ваше объявление<br>успешно размещено!</p>
     </div>
   </template>
+
   <!-- Сообщение об ошибке создания объеявления -->
   <template id="error">
     <div class="error">
@@ -244,7 +248,8 @@
       <button class="error__button" href="#">Попробовать снова</button>
     </div>
   </template>
-  <script src="js/map.js"></script>
-</body>
 
+  <script src="js/map.js"></script>
+
+</body>
 </html>

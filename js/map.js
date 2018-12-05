@@ -51,6 +51,8 @@ var mainPinMap = document.querySelector('.map__pin--main');
 var mapFilters = document.querySelector('.map__filters');
 var adForm = document.querySelector('.ad-form');
 var inputAddress = document.getElementById('address');
+var reset = document.querySelector('.ad-form__reset');
+
 var getRandomNumber = function (max, min) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
@@ -292,26 +294,29 @@ var activateMap = function () {
   var isActivatedMap = false;
   mainPinMap.addEventListener('mousedown', function () {
     mainPinMap.addEventListener('mousemove', function () {
-      if (!isActivatedMap) {
-        map.classList.remove('map--faded');
-        adForm.classList.remove('ad-form--disabled');
-        setVisibleElement(fieldsets, false);
-        createPinElement(createArrayCard(CARDS_LENGTH));
-        createPopupOnPinCLick(createArrayCard(CARDS_LENGTH));
-        isActivatedMap = true;
-      }
+      mainPinMap.addEventListener('mouseup', function () {
+
+        if (!isActivatedMap) {
+          map.classList.remove('map--faded');
+          adForm.classList.remove('ad-form--disabled');
+          setVisibleElement(fieldsets, false);
+          createPinElement(createArrayCard(CARDS_LENGTH));
+          createPopupOnPinCLick(createArrayCard(CARDS_LENGTH));
+          isActivatedMap = true;
+        }
+      });
     });
   });
-
   mainPinMap.removeEventListener('mousemove', activateMap);
 
 };
+
 var changePriceByType = function () {
   var typeSelect = document.querySelector('#type');
   var typeOption = typeSelect.querySelectorAll('option');
   var priceInput = document.querySelector('#price');
   var selectedOptionIndex = typeSelect.options.selectedIndex;
-  var reset = document.querySelector('.ad-form__reset');
+  typeOption[selectedOptionIndex].value = '';
 
   var minPrice = {
     bungalo: '0',
@@ -319,7 +324,6 @@ var changePriceByType = function () {
     house: '5000',
     palace: '10000'
   };
-  typeOption[selectedOptionIndex].value = '';
 
   if (typeOption[selectedOptionIndex].text === 'Бунгало') {
     priceInput.min = minPrice.bungalo;
@@ -344,11 +348,11 @@ var changePriceByType = function () {
     changePriceByType();
   });
 
+
   reset.addEventListener('click', function () {
     typeSelect.value = '';
     changePriceByType();
   });
-
 };
 
 
@@ -420,7 +424,9 @@ var sendingForm = function () {
 activateMap();
 
 sendingForm();
-inputAddress.value = coordinateAddress;
+
+var resetCoordsX = mainPinMap.style.left;
+var resetCoordsY = mainPinMap.style.top;
 
 mainPinMap.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
@@ -462,9 +468,12 @@ mainPinMap.addEventListener('mousedown', function (evt) {
     inputAddress.value = coordinateAddress;
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
+    reset.addEventListener('click', function () {
+      mainPinMap.style.top = resetCoordsY;
+      mainPinMap.style.left = resetCoordsX;
+    });
   };
 
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
-
 });
