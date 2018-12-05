@@ -10,7 +10,10 @@ var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var CARDS_LENGTH = 8;
 var ESC_KEYCODE = 27;
-var MIN_COORDS = 0;
+var MIN_COORDS_X = 0;
+var MAX_COORDS_Y = 630;
+var MIN_COORDS_Y = 130;
+
 
 var titles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var types = ['palace', 'flat', 'house', 'bungalo'];
@@ -31,7 +34,6 @@ var cardTemplate = document.querySelector('#card')
   .querySelector('.map__card');
 var cardElement = cardTemplate.cloneNode(true);
 var blockWidth = map.offsetWidth;
-var mapHeight = map.offsetHeight;
 var mapFiltersContainer = cardElement.querySelector('.map__filters-container');
 var popupTitle = cardElement.querySelector('.popup__title');
 var popupTextAddress = cardElement.querySelector('.popup__text--address');
@@ -191,7 +193,7 @@ var createPinElement = function (arr) {
     pinElement.style.left = arr[i].location.x + 'px';
     pinElement.style.top = arr[i].location.y - PIN_HEIGHT + 'px';
     pinElement.style.marginLeft = '-' + PIN_WIDTH / 2 + 'px';
-    pinElement.style.marginTop = PIN_HEIGHT + 'px;';
+    pinElement.style.marginTop = PIN_HEIGHT + 'px';
     pinImg.src = arr[i].author.avatar;
     pinImg.alt = arr[i].offer.title;
     fragment.appendChild(pinElement);
@@ -286,17 +288,23 @@ var createPopupOnPinCLick = function (arr) {
 };
 
 var activateMap = function () {
+  var isActivatedMap = false;
+  mainPinMap.addEventListener('mousedown', function () {
+    mainPinMap.addEventListener('mousemove', function () {
+      if (!isActivatedMap) {
+        map.classList.remove('map--faded');
+        adForm.classList.remove('ad-form--disabled');
+        setVisibleElement(fieldsets, false);
+        createPinElement(createArrayCard(CARDS_LENGTH));
+        createPopupOnPinCLick(createArrayCard(CARDS_LENGTH));
+        isActivatedMap = true;
+      }
+    });
+  });
 
-  map.classList.remove('map--faded');
-  adForm.classList.remove('ad-form--disabled');
-  setVisibleElement(fieldsets, false);
-  createPinElement(createArrayCard(CARDS_LENGTH));
+  mainPinMap.removeEventListener('mousemove', activateMap);
 
-  mainPinMap.removeEventListener('click', activateMap);
-  createPopupOnPinCLick(createArrayCard(CARDS_LENGTH));
 };
-
-mainPinMap.addEventListener('click', activateMap);
 
 var changePriceByType = function () {
   var typeSelect = document.querySelector('#type');
@@ -400,52 +408,55 @@ var sendingForm = function () {
   compareRooms(capacity);
   createSuccessMessage();
 };
+activateMap();
 
 
 sendingForm();
-moveMainPin();
 inputAddress.value = coordinateAddress;
 
-var moveMainPin = function () {
+mainPinMap.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
 
-  mainPinMap.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
-    };
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
 
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
-      };
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
-      var newCoordY = mainPinMap.offsetTop - shift.y;
-      var newCoordX = mainPinMap.offsetLeft - shift.x;
-      if (newCoordY <= mapHeight - mainPinMap.offsetHeight && newCoordY >= MIN_COORDS) {
-        mainPinMap.style.top = newCoordY + 'px';
-      }
-      mainPinMap.style.top = mainPinMap.offsetTop + 'px';
-      if (newCoordX <= blockWidth - mainPinMap.offsetWidth && newCoordX >= MIN_COORDS) {
-        mainPinMap.style.left = newCoordX + 'px';
-      }
-      mainPinMap.style.left = mainPinMap.offsetLeft + 'px';
+  var onMouseMove = function (moveEvt) {
+
+    moveEvt.preventDefault();
+    var pinHeight = mainPinMap.offsetHeight;
+    var pinWidth = mainPinMap.offsetWidth;
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
     };
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-      coordinateAddressX = parseInt(mainPinMap.style.left, 10) + mainPinMap.offsetWidth / 2;
-      coordinateAddressY = parseInt(mainPinMap.style.top, 10) + mainPinMap.offsetHeight;
-      coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
-      inputAddress.value = coordinateAddress;
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
     };
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
-};
+    var newCoordY = mainPinMap.offsetTop - shift.y;
+    var newCoordX = mainPinMap.offsetLeft - shift.x;
+    if (newCoordY <= MAX_COORDS_Y - pinHeight && newCoordY >= MIN_COORDS_Y) {
+      mainPinMap.style.top = newCoordY + 'px';
+    }
+    mainPinMap.style.top = mainPinMap.offsetTop + 'px';
+    if (newCoordX <= blockWidth - pinWidth && newCoordX >= MIN_COORDS_X) {
+      mainPinMap.style.left = newCoordX + 'px';
+    }
+    mainPinMap.style.left = mainPinMap.offsetLeft + 'px';
+  };
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+    coordinateAddressX = parseInt(mainPinMap.style.left, 10) + Math.floor(mainPinMap.offsetWidth / 2);
+    coordinateAddressY = parseInt(mainPinMap.style.top, 10) + Math.floor(mainPinMap.offsetHeight);
+    coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
+    inputAddress.value = coordinateAddress;
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+
+});
