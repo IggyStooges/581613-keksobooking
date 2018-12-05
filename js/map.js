@@ -102,6 +102,7 @@ var generateHouseType = function (arrayElement) {
   if (offerType === 'palace') {
     popupType.textContent = ApartmentType.PALACE;
   }
+
 };
 
 var renderPictures = function (arrayElement) {
@@ -305,12 +306,12 @@ var activateMap = function () {
   mainPinMap.removeEventListener('mousemove', activateMap);
 
 };
-
 var changePriceByType = function () {
   var typeSelect = document.querySelector('#type');
   var typeOption = typeSelect.querySelectorAll('option');
   var priceInput = document.querySelector('#price');
   var selectedOptionIndex = typeSelect.options.selectedIndex;
+  var reset = document.querySelector('.ad-form__reset');
 
   var minPrice = {
     bungalo: '0',
@@ -318,6 +319,7 @@ var changePriceByType = function () {
     house: '5000',
     palace: '10000'
   };
+  typeOption[selectedOptionIndex].value = '';
 
   if (typeOption[selectedOptionIndex].text === 'Бунгало') {
     priceInput.min = minPrice.bungalo;
@@ -341,7 +343,14 @@ var changePriceByType = function () {
   typeSelect.addEventListener('change', function () {
     changePriceByType();
   });
+
+  reset.addEventListener('click', function () {
+    typeSelect.value = '';
+    changePriceByType();
+  });
+
 };
+
 
 var timeIn = document.querySelector('#timein');
 var timeOut = document.querySelector('#timeout');
@@ -391,7 +400,7 @@ var createSuccessMessage = function () {
     adFormSuccesWindow.addEventListener('click', function () {
       adForm.removeChild(adFormSuccesWindow);
     });
-    window.addEventListener('keypress', function (escEvt) {
+    window.addEventListener('keydown', function (escEvt) {
       if (escEvt.keyCode === ESC_KEYCODE) {
         adForm.removeChild(adFormSuccesWindow);
       }
@@ -409,7 +418,6 @@ var sendingForm = function () {
   createSuccessMessage();
 };
 activateMap();
-
 
 sendingForm();
 inputAddress.value = coordinateAddress;
