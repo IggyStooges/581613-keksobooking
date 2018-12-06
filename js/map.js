@@ -257,13 +257,11 @@ var openPopup = function (currentIndex) {
 
 var closePopup = function () {
   var popup = map.querySelector('.popup');
-  var closebutton = popup.querySelector('.popup__close');
-  if (popup.classList.contains('hidden')) {
-    popup.classList.remove('hidden');
-  }
-  closebutton.addEventListener('click', function () {
+  var closeButton = popup.querySelector('.popup__close');
+  popup.classList.remove('hidden');
+  closeButton.addEventListener('click', function () {
     popup.classList.add('hidden');
-    closebutton.removeEventListener('click', closePopup);
+    closeButton.removeEventListener('click', closePopup);
   });
   document.addEventListener('keydown', function (evt) {
     if (popup) {
@@ -290,59 +288,53 @@ var createPopupOnPinCLick = function (arr) {
   }
 };
 
+var isMapActivated = false;
+
 var activateMap = function () {
-  var isActivatedMap = false;
-  mainPinMap.addEventListener('mousedown', function () {
-    mainPinMap.addEventListener('mousemove', function () {
-      mainPinMap.addEventListener('mouseup', function () {
 
-        if (!isActivatedMap) {
-          map.classList.remove('map--faded');
-          adForm.classList.remove('ad-form--disabled');
-          setVisibleElement(fieldsets, false);
-          createPinElement(createArrayCard(CARDS_LENGTH));
-          createPopupOnPinCLick(createArrayCard(CARDS_LENGTH));
-          isActivatedMap = true;
-        }
-      });
-    });
-  });
-  mainPinMap.removeEventListener('mousemove', activateMap);
-
+  if (!isMapActivated) {
+    isMapActivated = true;
+    map.classList.remove('map--faded');
+    adForm.classList.remove('ad-form--disabled');
+    setVisibleElement(fieldsets, false);
+    createPinElement(createArrayCard(CARDS_LENGTH));
+    createPopupOnPinCLick(createArrayCard(CARDS_LENGTH));
+  }
 };
 
 var changePriceByType = function () {
+  var minPrice = {
+    BUNGALO: '0',
+    FLAT: '1000',
+    HOUSE: '5000',
+    PALACE: '10000'
+  };
+
   var typeSelect = document.querySelector('#type');
   var typeOption = typeSelect.querySelectorAll('option');
   var priceInput = document.querySelector('#price');
   var selectedOptionIndex = typeSelect.options.selectedIndex;
   typeOption[selectedOptionIndex].value = '';
 
-  var minPrice = {
-    bungalo: '0',
-    flat: '1000',
-    house: '5000',
-    palace: '10000'
-  };
 
   if (typeOption[selectedOptionIndex].text === 'Бунгало') {
-    priceInput.min = minPrice.bungalo;
-    priceInput.placeholder = minPrice.bungalo;
+    priceInput.min = minPrice.BUNGALO;
+    priceInput.placeholder = minPrice.BUNGALO;
   }
 
   if (typeOption[selectedOptionIndex].text === 'Квартира') {
-    priceInput.min = minPrice.flat;
-    priceInput.placeholder = minPrice.flat;
+    priceInput.min = minPrice.FLAT;
+    priceInput.placeholder = minPrice.FLAT;
   }
 
   if (typeOption[selectedOptionIndex].text === 'Дом') {
-    priceInput.min = minPrice.house;
-    priceInput.placeholder = minPrice.house;
+    priceInput.min = minPrice.HOUSE;
+    priceInput.placeholder = minPrice.HOUSE;
   }
 
   if (typeOption[selectedOptionIndex].text === 'Дворец') {
-    priceInput.min = minPrice.palace;
-    priceInput.placeholder = minPrice.palace;
+    priceInput.min = minPrice.PALACE;
+    priceInput.placeholder = minPrice.PALACE;
   }
   typeSelect.addEventListener('change', function () {
     changePriceByType();
@@ -421,7 +413,6 @@ var sendingForm = function () {
   compareRooms(capacity);
   createSuccessMessage();
 };
-activateMap();
 
 sendingForm();
 
@@ -459,21 +450,28 @@ mainPinMap.addEventListener('mousedown', function (evt) {
       mainPinMap.style.left = newCoordX + 'px';
     }
     mainPinMap.style.left = mainPinMap.offsetLeft + 'px';
+
   };
+
   var onMouseUp = function (upEvt) {
+    activateMap();
     upEvt.preventDefault();
     coordinateAddressX = parseInt(mainPinMap.style.left, 10) + Math.floor(mainPinMap.offsetWidth / 2);
     coordinateAddressY = parseInt(mainPinMap.style.top, 10) + Math.floor(mainPinMap.offsetHeight);
     coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
     inputAddress.value = coordinateAddress;
+
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
+
     reset.addEventListener('click', function () {
       mainPinMap.style.top = resetCoordsY;
       mainPinMap.style.left = resetCoordsX;
     });
+
   };
 
   document.addEventListener('mousemove', onMouseMove);
   document.addEventListener('mouseup', onMouseUp);
+
 });
