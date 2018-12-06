@@ -36,7 +36,7 @@
       };
       var newCoordY = mainPinMap.offsetTop - shift.y;
       var newCoordX = mainPinMap.offsetLeft - shift.x;
-      if (newCoordY <= window.data.MAX_Y_COORDINATE - pinHeight && newCoordY >= window.data.MIN_Y_COORDINATE) {
+      if (newCoordY <= window.data.MAX_Y_COORDINATE - pinHeight && newCoordY >= window.data.MIN_Y_COORDINATE - pinHeight) {
         mainPinMap.style.top = newCoordY + 'px';
       }
       mainPinMap.style.top = mainPinMap.offsetTop + 'px';
