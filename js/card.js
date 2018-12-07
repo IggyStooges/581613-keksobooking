@@ -4,7 +4,12 @@
   var MIN_PRICE = 1000;
   var MAX_ROOMS = 5;
   var MIN_ROOMS = 1;
-
+  var ApartmentType = {
+    FLAT: 'квартира',
+    BUNGALO: 'Бунгало',
+    HOUSE: 'Дом',
+    PALACE: 'Дворец'
+  };
   var titles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
   var types = ['palace', 'flat', 'house', 'bungalo'];
   var checkins = ['12:00', '13:00', '14:00'];
@@ -28,12 +33,7 @@
   var popupPhotos = cardElement.querySelector('.popup__photos');
   var popupPhoto = cardElement.querySelector('.popup__photo');
   var popupAvatar = cardElement.querySelector('.popup__avatar');
-  var ApartmentType = {
-    FLAT: 'квартира',
-    BUNGALO: 'Бунгало',
-    HOUSE: 'Дом',
-    PALACE: 'Дворец'
-  };
+
 
   var generateArrayAddressesImages = function (numberOfImages) {
     var arrayAddressesImages = [];

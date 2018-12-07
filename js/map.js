@@ -11,7 +11,6 @@
     }
   };
 
-
   setVisibleElement(fieldsets, true);
   mapFilters.classList.add('map__filters--disabled');
 
@@ -20,7 +19,7 @@
     if (!isMapActivated) {
       isMapActivated = true;
       window.data.map.classList.remove('map--faded');
-      window.form.adForm.classList.remove('ad-form--disabled');
+      window.form.ad.classList.remove('ad-form--disabled');
       setVisibleElement(fieldsets, false);
       window.createPinElement(window.card.createArrayCard(window.data.CARDS_LENGTH));
       window.createPopupOnPinCLick(window.card.createArrayCard(window.data.CARDS_LENGTH));

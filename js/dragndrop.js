@@ -2,12 +2,12 @@
 
 (function () {
   window.blockWidth = window.data.map.offsetWidth;
-  var coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
   var mainPinMap = document.querySelector('.map__pin--main');
   var inputAddress = document.getElementById('address');
 
   var coordinateAddressX = parseInt(mainPinMap.style.left, 10) + mainPinMap.offsetWidth / 2;
   var coordinateAddressY = parseInt(mainPinMap.style.top, 10) + mainPinMap.offsetHeight / 2;
+  var coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
   inputAddress.value = coordinateAddress;
   var resetCoordsX = mainPinMap.style.left;
   var resetCoordsY = mainPinMap.style.top;

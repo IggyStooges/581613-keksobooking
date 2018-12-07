@@ -3,7 +3,7 @@
 (function () {
   window.form = {
     reset: document.querySelector('.ad-form__reset'),
-    adForm: document.querySelector('.ad-form')
+    ad: document.querySelector('.ad-form')
   };
 
   var changePriceByType = function () {
@@ -89,7 +89,7 @@
       .content
       .querySelector('.success');
 
-    window.form.adForm.addEventListener('submit', function (evt) {
+    window.form.ad.addEventListener('submit', function (evt) {
       evt.preventDefault();
       var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
       var element = document.querySelector('.success');

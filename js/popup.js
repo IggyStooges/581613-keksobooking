@@ -16,8 +16,6 @@
     }
 
     window.card.createCard(currentIndex);
-
-    return popup;
   };
 
   var closePopup = function () {
