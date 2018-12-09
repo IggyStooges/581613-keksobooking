@@ -28,7 +28,12 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
+      // if (xhr.status === 200) {
       onLoad();
+      // }
+      // else {
+      //   onError('статус ответа' + xhr.status + ' ' + xhr.statusText);
+      // }
     });
     xhr.open('POST', URL);
     xhr.send(data);

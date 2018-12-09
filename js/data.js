@@ -7,7 +7,7 @@
     MAX_Y_COORDINATE: 630,
     MIN_Y_COORDINATE: 130,
     MIN_X_COORDS: 0,
-    map: document.querySelector('.map'),
+    map: document.querySelector('.map')
   };
 
 })();

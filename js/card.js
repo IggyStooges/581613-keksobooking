@@ -159,6 +159,7 @@
 
   };
 
+
   window.card = {
     createArrayCard: function (arrLength) {
       var cards = [];
