@@ -28,8 +28,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      onLoad(xhr.response);
-
+      onLoad();
     });
     xhr.open('POST', URL);
     xhr.send(data);
@@ -38,7 +37,6 @@
   window.backend = {
     getData: getData,
     sendData: sendData
-
   };
 
 })();

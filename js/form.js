@@ -85,30 +85,36 @@
 
   var createSuccessMessage = function () {
 
-    var adFormSuccesTemplate = document.querySelector('#success')
-      .content
-      .querySelector('.success');
-
 
     window.form.ad.addEventListener('submit', function (evt) {
-      window.backend.sendData(new FormData(window.form.ad), function () {
-        var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
+
+      var sendSuccess = function () {
         var element = document.querySelector('.success');
 
+        var adFormSuccesTemplate = document.querySelector('#success')
+          .content
+          .querySelector('.success');
+
+        var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
         if (element) {
-          window.form.ad.removeChild(element);
+          window.window.form.ad.removeChild(element);
         }
-        window.form.ad.appendChild(adFormSuccesWindow);
-        evt.preventDefault();
-        window.adFormSuccesWindow.addEventListener('click', function () {
-          window.form.ad.removeChild(adFormSuccesWindow);
+        window.window.form.ad.appendChild(adFormSuccesWindow);
+
+        adFormSuccesWindow.addEventListener('click', function () {
+          window.window.form.ad.removeChild(adFormSuccesWindow);
         });
+
         window.addEventListener('keydown', function (escEvt) {
           if (escEvt.keyCode === window.ESC_KEYCODE) {
-            window.form.ad.removeChild(adFormSuccesWindow);
+            window.adForm.removeChild(adFormSuccesWindow);
           }
         });
-      });
+
+      };
+
+      window.backend.sendData(new FormData(window.form.ad), sendSuccess);
+      evt.preventDefault();
 
     });
   };
