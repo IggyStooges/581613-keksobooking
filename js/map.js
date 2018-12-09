@@ -21,9 +21,7 @@
       window.data.map.classList.remove('map--faded');
       window.form.ad.classList.remove('ad-form--disabled');
       setVisibleElement(fieldsets, false);
-      window.createPinElement(window.card.createArrayCard(window.data.CARDS_LENGTH));
-      window.createPopupOnPinCLick(window.card.createArrayCard(window.data.CARDS_LENGTH));
+      window.pin.pins();
     }
   };
-
 })();

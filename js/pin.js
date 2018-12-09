@@ -27,4 +27,22 @@
     mapPins.appendChild(fragment);
 
   };
+
+
+  var offers = [];
+  var createPins = function (data) {
+    offers = data;
+    window.createPinElement(offers);
+    var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+    for (var i = 0; i < offers.length; i++) {
+      window.popup.createPopup(pins[i], offers[i]);
+    }
+    return pins;
+  };
+
+  window.pin = {
+    pins: function () {
+      window.backend.getData(createPins);
+    }
+  };
 })();

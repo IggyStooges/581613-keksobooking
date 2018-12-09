@@ -89,21 +89,25 @@
       .content
       .querySelector('.success');
 
+
     window.form.ad.addEventListener('submit', function (evt) {
-      evt.preventDefault();
-      var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
-      var element = document.querySelector('.success');
-      if (element) {
-        window.adForm.removeChild(element);
-      }
-      window.adForm.appendChild(adFormSuccesWindow);
-      window.adFormSuccesWindow.addEventListener('click', function () {
-        window.adForm.removeChild(adFormSuccesWindow);
-      });
-      window.addEventListener('keydown', function (escEvt) {
-        if (escEvt.keyCode === window.ESC_KEYCODE) {
-          window.adForm.removeChild(adFormSuccesWindow);
+      window.backend.sendData(new FormData(window.form.ad), function () {
+        var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
+        var element = document.querySelector('.success');
+
+        if (element) {
+          window.form.ad.removeChild(element);
         }
+        window.form.ad.appendChild(adFormSuccesWindow);
+        evt.preventDefault();
+        window.adFormSuccesWindow.addEventListener('click', function () {
+          window.form.ad.removeChild(adFormSuccesWindow);
+        });
+        window.addEventListener('keydown', function (escEvt) {
+          if (escEvt.keyCode === window.ESC_KEYCODE) {
+            window.form.ad.removeChild(adFormSuccesWindow);
+          }
+        });
       });
 
     });
