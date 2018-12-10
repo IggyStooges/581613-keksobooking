@@ -43,7 +43,7 @@
 
   window.pin = {
     pins: function () {
-      window.backend.getData(createPins);
+      window.backend.getData(createPins, window.data.errorHandler);
     }
   };
 })();

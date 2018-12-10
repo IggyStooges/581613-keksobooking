@@ -5,16 +5,17 @@
   var mainPinMap = document.querySelector('.map__pin--main');
   var inputAddress = document.getElementById('address');
 
-  var coordinateAddressX = parseInt(mainPinMap.style.left, 10) + mainPinMap.offsetWidth / 2;
-  var coordinateAddressY = parseInt(mainPinMap.style.top, 10) + mainPinMap.offsetHeight / 2;
-  var coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
-  inputAddress.value = coordinateAddress;
   var resetCoordsX = mainPinMap.style.left;
   var resetCoordsY = mainPinMap.style.top;
 
+  var calculateCoords = function () {
+    var coordinateAddressX = parseInt(mainPinMap.style.left, 10) + Math.floor(mainPinMap.offsetWidth / 2);
+    var coordinateAddressY = parseInt(mainPinMap.style.top, 10) + Math.floor(mainPinMap.offsetHeight);
+    var coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
+    inputAddress.value = coordinateAddress;
+  };
 
   mainPinMap.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
 
     var startCoords = {
       x: evt.clientX,
@@ -50,18 +51,9 @@
     var onMouseUp = function (upEvt) {
       window.activateMap();
       upEvt.preventDefault();
-      coordinateAddressX = parseInt(mainPinMap.style.left, 10) + Math.floor(mainPinMap.offsetWidth / 2);
-      coordinateAddressY = parseInt(mainPinMap.style.top, 10) + Math.floor(mainPinMap.offsetHeight);
-      coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
-      inputAddress.value = coordinateAddress;
-
+      calculateCoords();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-
-      window.form.reset.addEventListener('click', function () {
-        mainPinMap.style.top = resetCoordsY;
-        mainPinMap.style.left = resetCoordsX;
-      });
 
     };
 
@@ -69,4 +61,24 @@
     document.addEventListener('mouseup', onMouseUp);
 
   });
+
+
+  window.resetPage = function () {
+    window.data.map.classList.add('map--faded');
+    window.form.ad.classList.add('ad-form--disabled');
+    document.querySelectorAll('.map__pin').forEach(function (item) {
+      if (!item.classList.contains('map__pin--main')) {
+        item.remove();
+      }
+    });
+    var popup = document.querySelector('.popup');
+    if (popup) {
+      popup.remove();
+    }
+    window.form.ad.reset();
+    mainPinMap.style.left = resetCoordsX;
+    mainPinMap.style.top = resetCoordsY;
+    calculateCoords();
+  };
+
 })();
