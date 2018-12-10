@@ -19,21 +19,21 @@
   var cardTemplate = document.querySelector('#card')
     .content
     .querySelector('.map__card');
-  var cardElement = cardTemplate.cloneNode(true);
-  var mapFiltersContainer = cardElement.querySelector('.map__filters-container');
+  window.cardElement = cardTemplate.cloneNode(true);
+  var mapFiltersContainer = window.cardElement.querySelector('.map__filters-container');
 
-  var popupTitle = cardElement.querySelector('.popup__title');
-  var popupTextAddress = cardElement.querySelector('.popup__text--address');
-  var popupTextPrice = cardElement.querySelector('.popup__text--price');
-  var popupTextCapacity = cardElement.querySelector('.popup__text--capacity');
-  var popupTextTime = cardElement.querySelector('.popup__text--time');
-  var popupFeaturesList = cardElement.querySelector('.popup__features');
-  var popupFeature = popupFeaturesList.querySelector('.popup__feature:first-of-type');
-  var popupDescription = cardElement.querySelector('.popup__description');
-  var popupPhotos = cardElement.querySelector('.popup__photos');
-  var popupPhoto = cardElement.querySelector('.popup__photo');
-  var popupAvatar = cardElement.querySelector('.popup__avatar');
-
+  window.popup = window.cardElement.querySelector('.popup');
+  window.popupTitle = window.cardElement.querySelector('.popup__title');
+  window.popupTextAddress = window.cardElement.querySelector('.popup__text--address');
+  window.popupTextPrice = window.cardElement.querySelector('.popup__text--price');
+  window.popupTextCapacity = window.cardElement.querySelector('.popup__text--capacity');
+  window.popupTextTime = window.cardElement.querySelector('.popup__text--time');
+  window.popupFeaturesList = window.cardElement.querySelector('.popup__features');
+  var popupFeature = window.popupFeaturesList.querySelector('.popup__feature:first-of-type');
+  window.popupDescription = window.cardElement.querySelector('.popup__description');
+  window.popupPhotos = window.cardElement.querySelector('.popup__photos');
+  window.popupPhoto = window.cardElement.querySelector('.popup__photo');
+  window.popupAvatar = window.cardElement.querySelector('.popup__avatar');
 
   var generateArrayAddressesImages = function (numberOfImages) {
     var arrayAddressesImages = [];
@@ -68,14 +68,14 @@
   var renderPictures = function (arrayElement) {
     var offerPhoto = arrayElement.offer.photos[0];
 
-    popupPhoto.src = offerPhoto;
-    popupPhotos.innerHTML = '';
+    window.popupPhoto.src = offerPhoto;
+    window.popupPhotos.innerHTML = '';
 
     for (var i = 0; i < arrayElement.offer.photos.length; i++) {
 
-      var newElement = popupPhoto.cloneNode(true);
+      var newElement = window.popupPhoto.cloneNode(true);
       newElement.src = arrayElement.offer.photos[i];
-      popupPhotos.appendChild(newElement);
+      window.popupPhotos.appendChild(newElement);
     }
   };
 
@@ -108,12 +108,12 @@
 
 
   var renderFeatures = function (arrayElement) {
-    popupFeaturesList.innerHTML = '';
+    window.popupFeaturesList.innerHTML = '';
     var offerFeatures = arrayElement.offer.features;
     for (var i = 0; i < offerFeatures.length; i++) {
       var newElement = popupFeature.cloneNode(true);
       newElement.className = 'popup__feature popup__feature' + '--' + offerFeatures[i];
-      popupFeaturesList.appendChild(newElement);
+      window.popupFeaturesList.appendChild(newElement);
     }
 
   };
@@ -142,7 +142,7 @@
 
   var generateHouseType = function (arrayElement) {
     var offerType = arrayElement.offer.type;
-    var popupType = cardElement.querySelector('.popup__type');
+    var popupType = window.cardElement.querySelector('.popup__type');
 
     if (offerType === 'flat') {
       popupType.textContent = ApartmentType.FLAT;
@@ -176,22 +176,23 @@
       var rooms = arrayElement.offer.rooms;
       var guests = arrayElement.offer.guests;
 
-      popupTitle.textContent = arrayElement.offer.title;
-      popupTextAddress.textContent = arrayElement.offer.address;
-      popupTextPrice.textContent = arrayElement.offer.price + '₽/ночь';
+      window.popupTitle.textContent = arrayElement.offer.title;
+      window.popupTextAddress.textContent = arrayElement.offer.address;
+      window.popupTextPrice.textContent = arrayElement.offer.price + '₽/ночь';
 
       generateHouseType(arrayElement);
-      popupTextCapacity.textContent = rooms + generateDeclensionRooms(arrayElement) + guests + generateDeclensionGuests(arrayElement);
+      window.popupTextCapacity.textContent = rooms + generateDeclensionRooms(arrayElement) + guests + generateDeclensionGuests(arrayElement);
 
-      popupTextTime.textContent = 'Заезд после ' + checkin + ', выезд до ' + checkout;
+      window.popupTextTime.textContent = 'Заезд после ' + checkin + ', выезд до ' + checkout;
       renderFeatures(arrayElement);
-      popupDescription.textContent = arrayElement.offer.description;
+      window.popupDescription.textContent = arrayElement.offer.description;
 
       renderPictures(arrayElement);
-      popupAvatar.src = arrayElement.author.avatar;
-      window.data.map.insertBefore(cardElement, mapFiltersContainer);
+      window.popupAvatar.src = arrayElement.author.avatar;
+      window.data.map.insertBefore(window.cardElement, mapFiltersContainer);
 
     }
+
   };
 
 
