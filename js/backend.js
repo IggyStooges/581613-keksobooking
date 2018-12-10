@@ -2,8 +2,7 @@
 (function () {
 
   var urlData = 'https://js.dump.academy/keksobooking/data';
-  var URL = 'https://js.dumps.academy/keksobooking';
-
+  var URL = 'https://js.dump.academy/keksobooking';
 
   var getData = function (onLoad, onError) {
 
