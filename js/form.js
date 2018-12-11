@@ -93,6 +93,7 @@
   var createSuccessMessage = function () {
 
     window.form.ad.addEventListener('submit', function (evt) {
+      evt.preventDefault();
 
       var sendSuccess = function () {
         var element = document.querySelector('.success');
@@ -121,7 +122,6 @@
 
       window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
       window.resetPage();
-      evt.preventDefault();
 
     });
   };
