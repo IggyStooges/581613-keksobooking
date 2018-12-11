@@ -1,7 +1,7 @@
 'use strict';
 (function () {
 
-  var urlData = 'https://js.dump.academy/keksobooking/data';
+  var URL_DATA = 'https://js.dump.academy/keksobooking/data';
   var URL = 'https://js.dump.academy/keksobooking';
 
   var getData = function (onLoad, onError) {
@@ -25,7 +25,7 @@
 
     xhr.timeout = 10000;
 
-    xhr.open('GET', urlData);
+    xhr.open('GET', URL_DATA);
 
     xhr.send();
 

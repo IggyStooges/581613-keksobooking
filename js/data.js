@@ -20,7 +20,7 @@
       errorElement.style.marginTop = '0';
       errorElement.style.marginLeft = 'auto';
       errorElement.style.textAlign = 'center';
-      errorElement.style.backgroundColor = 'red';
+      errorElement.style.backgroundColor = 'blanche­dalmond';
 
       errorElement.style.position = 'absolute';
       errorElement.style.left = 0;
