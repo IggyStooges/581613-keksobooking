@@ -29,8 +29,19 @@
 
       errorElement.style.textContent = errorMessage;
       main.insertAdjacentElement('afterbegin', errorElement);
+
       errorButton.addEventListener('click', function (evt) {
         evt.preventDefault();
+        main.removeChild(errorElement);
+      });
+
+      window.addEventListener('keydown', function (escEvt) {
+        if (escEvt.keyCode === window.data.ESC_KEYCODE) {
+          main.removeChild(errorElement);
+        }
+      });
+
+      window.addEventListener('click', function () {
         main.removeChild(errorElement);
       });
     }

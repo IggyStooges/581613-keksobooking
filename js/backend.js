@@ -39,9 +39,10 @@
       if (xhr.status === 200) {
         onLoad();
       } else {
-        onError('статус ответа' + xhr.status + ' ' + xhr.statusText);
+        onError('статус ответа ' + xhr.status + ' ' + xhr.statusText);
       }
     });
+
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
     });

@@ -112,7 +112,7 @@
         });
 
         window.addEventListener('keydown', function (escEvt) {
-          if (escEvt.keyCode === window.ESC_KEYCODE) {
+          if (escEvt.keyCode === window.data.ESC_KEYCODE) {
             window.adForm.removeChild(adFormSuccesWindow);
           }
         });
