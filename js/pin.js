@@ -17,14 +17,31 @@
       var pinImg = pinElement.querySelector('img');
       pinElement.style.left = arr[i].location.x + 'px';
       pinElement.style.top = arr[i].location.y - PIN_HEIGHT + 'px';
-      pinElement.style.marginLeft = '-' + PIN_WIDTH / 2 + 'px';
-      pinElement.style.marginTop = PIN_HEIGHT + 'px';
+      pinElement.style.marginLeft = (-PIN_WIDTH / 2) + 'px';
+      pinElement.style.marginTop = (-PIN_HEIGHT) + 'px';
       pinImg.src = arr[i].author.avatar;
       pinImg.alt = arr[i].offer.title;
-      fragment.appendChild(pinElement);
+      if ('offer' in arr[i]) {
+        fragment.appendChild(pinElement);
+      }
     }
 
     mapPins.appendChild(fragment);
 
+  };
+
+
+  var createPins = function (data) {
+    window.createPinElement(data);
+    var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+    for (var i = 0; i < data.length; i++) {
+      window.popup.createPopup(pins[i], data[i]);
+    }
+  };
+
+  window.pin = {
+    pins: function () {
+      window.backend.getData(createPins, window.data.errorHandler);
+    }
   };
 })();

@@ -1,33 +1,43 @@
 'use strict';
 (function () {
-  var createPopup = function (currentPin, currentIndex) {
-    currentPin.addEventListener('click', function () {
-      openPopup(currentIndex);
-      closePopup();
-      currentPin.removeEventListener('click', createPopup);
-    });
+
+  window.popup = {
+    createPopup: function (currentPin, currentIndex) {
+      var pins = window.data.map.querySelectorAll('.map__pin');
+
+      currentPin.addEventListener('click', function () {
+        pins.forEach(function (element) {
+          element.classList.remove('.map__pin--active');
+        });
+
+        currentPin.classList.add('.map__pin--active');
+
+        openPopup(currentIndex);
+        closePopup();
+        currentPin.removeEventListener('click', window.popup.createPopup);
+      });
+    }
   };
 
   var openPopup = function (currentIndex) {
-    var popup = window.data.map.querySelector('.map__card');
-
+    var popup = document.querySelector('.map__card');
     if (popup) {
       window.data.map.removeChild(popup);
     }
-
     window.card.createCard(currentIndex);
+    hidePopupBlock();
   };
 
   var closePopup = function () {
     var popup = window.data.map.querySelector('.popup');
-    var closeButton = popup.querySelector('.popup__close');
+    var closeButton = document.querySelector('.popup__close');
     popup.classList.remove('hidden');
     closeButton.addEventListener('click', function () {
       popup.classList.add('hidden');
       closeButton.removeEventListener('click', closePopup);
     });
     document.addEventListener('keydown', function (evt) {
-      if (popup) {
+      if (window.popup) {
         if (evt.keyCode === window.data.ESC_KEYCODE) {
           popup.classList.add('hidden');
         }
@@ -36,10 +46,18 @@
 
   };
 
-  window.createPopupOnPinCLick = function (arr) {
-    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var i = 0; i < arr.length; i++) {
-      createPopup(pins[i], arr[i]);
+  var hideEmptyBlock = function (block) {
+    block.classList.add('remove');
+
+    if (block.innerHTML === '') {
+      block.classList.add('hidden');
+    }
+  };
+
+  var hidePopupBlock = function () {
+    var popupInnerBlocks = [window.popupTitle, window.popupTextAddress, window.popupTextPrice, window.popupTextCapacity, window.popupTextTime, window.popupFeaturesList, window.popupDescription, window.popupPhotos];
+    for (var i = 0; i < popupInnerBlocks.length; i++) {
+      hideEmptyBlock(popupInnerBlocks[i]);
     }
   };
 

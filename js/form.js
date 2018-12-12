@@ -5,6 +5,8 @@
     reset: document.querySelector('.ad-form__reset'),
     ad: document.querySelector('.ad-form')
   };
+  var typeSelect = document.querySelector('#type');
+  var selectedOptionIndex = typeSelect.options.selectedIndex;
 
   var changePriceByType = function () {
     var minPrice = {
@@ -14,10 +16,8 @@
       PALACE: '10000'
     };
 
-    var typeSelect = document.querySelector('#type');
     var typeOption = typeSelect.querySelectorAll('option');
     var priceInput = document.querySelector('#price');
-    var selectedOptionIndex = typeSelect.options.selectedIndex;
     typeOption[selectedOptionIndex].value = '';
 
 
@@ -45,12 +45,20 @@
     });
 
 
-    window.form.reset.addEventListener('click', function () {
+  };
+
+  var resetpagebyreset = function () {
+    window.form.reset.addEventListener('click', function (evt) {
       typeSelect.value = '';
       changePriceByType();
+      evt.preventDefault();
+      window.resetPage();
+      window.isMapActivated = false;
+      window.form.reset.removeEventListener('click', resetpagebyreset);
     });
   };
 
+  resetpagebyreset();
 
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
@@ -62,7 +70,6 @@
       secondSelect.selectedIndex = firstSelect.selectedIndex;
     });
   };
-
 
   var compareRooms = function (select) {
     select.setCustomValidity('Выберите');
@@ -85,26 +92,36 @@
 
   var createSuccessMessage = function () {
 
-    var adFormSuccesTemplate = document.querySelector('#success')
-      .content
-      .querySelector('.success');
-
     window.form.ad.addEventListener('submit', function (evt) {
-      evt.preventDefault();
-      var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
-      var element = document.querySelector('.success');
-      if (element) {
-        window.adForm.removeChild(element);
-      }
-      window.adForm.appendChild(adFormSuccesWindow);
-      window.adFormSuccesWindow.addEventListener('click', function () {
-        window.adForm.removeChild(adFormSuccesWindow);
-      });
-      window.addEventListener('keydown', function (escEvt) {
-        if (escEvt.keyCode === window.ESC_KEYCODE) {
-          window.adForm.removeChild(adFormSuccesWindow);
+
+      var sendSuccess = function () {
+        var element = document.querySelector('.success');
+
+        var adFormSuccesTemplate = document.querySelector('#success')
+          .content
+          .querySelector('.success');
+
+        var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
+        if (element) {
+          window.window.form.ad.removeChild(element);
         }
-      });
+        window.window.form.ad.appendChild(adFormSuccesWindow);
+
+        adFormSuccesWindow.addEventListener('click', function () {
+          window.window.form.ad.removeChild(adFormSuccesWindow);
+        });
+
+        window.addEventListener('keydown', function (escEvt) {
+          if (escEvt.keyCode === window.data.ESC_KEYCODE) {
+            window.adForm.removeChild(adFormSuccesWindow);
+          }
+        });
+
+      };
+
+      window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
+      window.resetPage();
+      evt.preventDefault();
 
     });
   };
