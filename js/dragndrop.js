@@ -75,6 +75,8 @@
     if (popup) {
       popup.remove();
     }
+    window.isMapActivated = false;
+
     window.form.ad.reset();
     mainPinMap.style.left = resetCoordsX;
     mainPinMap.style.top = resetCoordsY;
