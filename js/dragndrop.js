@@ -5,10 +5,10 @@
   var mainPinMap = document.querySelector('.map__pin--main');
   var inputAddress = document.getElementById('address');
 
-  var resetCoordsX = mainPinMap.style.left;
-  var resetCoordsY = mainPinMap.style.top;
+  var resetCoordsinateX = mainPinMap.style.left;
+  var resetCoordsinateY = mainPinMap.style.top;
 
-  var calculateCoords = function () {
+  var calculateCoordinates = function () {
     var coordinateAddressX = parseInt(mainPinMap.style.left, 10) + Math.floor(mainPinMap.offsetWidth / 2);
     var coordinateAddressY = parseInt(mainPinMap.style.top, 10) + Math.floor(mainPinMap.offsetHeight);
     var coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
@@ -51,7 +51,7 @@
     var onMouseUp = function (upEvt) {
       window.activateMap();
       upEvt.preventDefault();
-      calculateCoords();
+      calculateCoordinates();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
 
@@ -64,6 +64,8 @@
 
 
   window.resetPage = function () {
+    window.isMapActivated = false;
+
     window.data.map.classList.add('map--faded');
     window.form.ad.classList.add('ad-form--disabled');
     document.querySelectorAll('.map__pin').forEach(function (item) {
@@ -76,9 +78,10 @@
       popup.remove();
     }
     window.form.ad.reset();
-    mainPinMap.style.left = resetCoordsX;
-    mainPinMap.style.top = resetCoordsY;
-    calculateCoords();
+    mainPinMap.style.left = resetCoordsinateX;
+    mainPinMap.style.top = resetCoordsinateY;
+    calculateCoordinates();
+    window.setVisibleElement(window.fieldsets, true);
   };
 
 })();

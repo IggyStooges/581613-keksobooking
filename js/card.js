@@ -161,7 +161,7 @@
 
 
   window.card = {
-    createArrayCard: function (arrLength) {
+    createArrayData: function (arrLength) {
       var cards = [];
 
       for (var i = 0; i < arrLength; i++) {

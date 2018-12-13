@@ -31,7 +31,7 @@
         }
       });
 
-      window.addEventListener('click', function () {
+      errorElement.addEventListener('click', function () {
         main.removeChild(errorElement);
       });
     }

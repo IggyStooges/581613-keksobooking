@@ -6,20 +6,19 @@
     ad: document.querySelector('.ad-form')
   };
   var typeSelect = document.querySelector('#type');
-  var selectedOptionIndex = typeSelect.options.selectedIndex;
 
   var changePriceByType = function () {
+    var selectedOptionIndex = typeSelect.options.selectedIndex;
+    var typeOption = typeSelect.querySelectorAll('option');
+    var priceInput = document.querySelector('#price');
+    console.log(priceInput.placeholder);
+
     var minPrice = {
       BUNGALO: '0',
       FLAT: '1000',
       HOUSE: '5000',
       PALACE: '10000'
     };
-
-    var typeOption = typeSelect.querySelectorAll('option');
-    var priceInput = document.querySelector('#price');
-    typeOption[selectedOptionIndex].value = '';
-
 
     if (typeOption[selectedOptionIndex].text === 'Бунгало') {
       priceInput.min = minPrice.BUNGALO;
@@ -40,21 +39,17 @@
       priceInput.min = minPrice.PALACE;
       priceInput.placeholder = minPrice.PALACE;
     }
-    typeSelect.addEventListener('change', function () {
-      changePriceByType();
-    });
-
-
   };
+
+  typeSelect.addEventListener('mouseup', changePriceByType);
 
   var resetpagebyreset = function () {
     window.form.reset.addEventListener('click', function (evt) {
-      typeSelect.value = '';
       changePriceByType();
       evt.preventDefault();
       window.resetPage();
-      window.isMapActivated = false;
       window.form.reset.removeEventListener('click', resetpagebyreset);
+      changePriceByType();
     });
   };
 
