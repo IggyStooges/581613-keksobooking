@@ -103,6 +103,24 @@
 
   };
 
+  var tratata = function () {
+    var mapPins = document.querySelector('.map__pins');
+
+    var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    pins.forEach(function (item) {
+      item.remove();
+    });
+
+    var arrayFilterByOffer = updateAdsByFeatures(updateAdsByGuests(updateAdsByRooms(updateAdsByPrice(updateAdsByType(window.ads)))));
+    window.createPins(arrayFilterByOffer);
+  };
+
+
+  var hut = window.debounce(function () {
+    tratata();
+  });
+
 
   window.successHandler = function (data) {
     window.ads = data;
@@ -111,18 +129,7 @@
 
     filterItems.forEach(function (element) {
 
-      element.addEventListener('change', function () {
-        var mapPins = document.querySelector('.map__pins');
-
-        var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
-
-        pins.forEach(function (item) {
-          item.remove();
-        });
-
-        var arrayFilterByOffer = updateAdsByFeatures(updateAdsByGuests(updateAdsByRooms(updateAdsByPrice(updateAdsByType(window.ads)))));
-        window.createPins(arrayFilterByOffer);
-      });
+      element.addEventListener('change', hut);
 
     });
 
