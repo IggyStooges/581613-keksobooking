@@ -103,7 +103,7 @@
 
   };
 
-  var tratata = function () {
+  var createPinsByFilteredAds = window.debounce(function () {
     var mapPins = document.querySelector('.map__pins');
 
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -114,11 +114,6 @@
 
     var arrayFilterByOffer = updateAdsByFeatures(updateAdsByGuests(updateAdsByRooms(updateAdsByPrice(updateAdsByType(window.ads)))));
     window.createPins(arrayFilterByOffer);
-  };
-
-
-  var hut = window.debounce(function () {
-    tratata();
   });
 
 
@@ -129,7 +124,7 @@
 
     filterItems.forEach(function (element) {
 
-      element.addEventListener('change', hut);
+      element.addEventListener('change', createPinsByFilteredAds);
 
     });
 
