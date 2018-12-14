@@ -4,7 +4,6 @@
   window.popup = {
     createPopup: function (currentPin, currentIndex) {
       var pins = window.data.map.querySelectorAll('.map__pin');
-
       currentPin.addEventListener('click', function () {
         pins.forEach(function (element) {
           element.classList.remove('.map__pin--active');

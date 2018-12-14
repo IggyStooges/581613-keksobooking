@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var NUMBER_DISPLAYED_PINS = 5;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
 
@@ -21,7 +22,7 @@
       pinElement.style.marginTop = (-PIN_HEIGHT) + 'px';
       pinImg.src = arr[i].author.avatar;
       pinImg.alt = arr[i].offer.title;
-      if ('offer' in arr[i]) {
+      if ('offer' in arr[i] && i < NUMBER_DISPLAYED_PINS) {
         fragment.appendChild(pinElement);
       }
     }
@@ -31,17 +32,17 @@
   };
 
 
-  var createPins = function (data) {
+  window.createPins = function (data) {
     window.createPinElement(data);
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < NUMBER_DISPLAYED_PINS - 1; i++) {
       window.popup.createPopup(pins[i], data[i]);
     }
   };
 
   window.pin = {
     pins: function () {
-      window.backend.getData(createPins, window.data.errorHandler);
+      window.backend.getData(window.successHandler, window.data.errorHandler);
     }
   };
 })();

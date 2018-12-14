@@ -12,6 +12,7 @@
   };
 
   window.setVisibleElement(window.fieldsets, true);
+
   mapFilters.classList.add('map__filters--disabled');
 
   window.activateMap = function () {
@@ -21,7 +22,10 @@
       window.data.map.classList.remove('map--faded');
       window.form.ad.classList.remove('ad-form--disabled');
       window.setVisibleElement(window.fieldsets, false);
+      window.setVisibleElement(window.filterSelects, false);
+
       window.pin.pins();
+
     }
   };
 })();

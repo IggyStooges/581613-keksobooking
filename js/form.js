@@ -11,7 +11,6 @@
     var selectedOptionIndex = typeSelect.options.selectedIndex;
     var typeOption = typeSelect.querySelectorAll('option');
     var priceInput = document.querySelector('#price');
-    console.log(priceInput.placeholder);
 
     var minPrice = {
       BUNGALO: '0',
