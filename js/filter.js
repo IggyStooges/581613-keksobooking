@@ -103,14 +103,17 @@
 
   };
 
-  var mapPins = document.querySelector('.map__pins');
 
   window.successHandler = function (data) {
     window.ads = data;
+
     window.createPins(data);
 
     filterItems.forEach(function (element) {
+
       element.addEventListener('change', function () {
+        var mapPins = document.querySelector('.map__pins');
+
         var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
 
         pins.forEach(function (item) {

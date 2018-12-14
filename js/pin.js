@@ -35,7 +35,7 @@
   window.createPins = function (data) {
     window.createPinElement(data);
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var i = 0; i < NUMBER_DISPLAYED_PINS - 1; i++) {
+    for (var i = 0; i < pins.length; i++) {
       window.popup.createPopup(pins[i], data[i]);
     }
   };
