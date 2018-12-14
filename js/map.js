@@ -6,9 +6,9 @@
   window.fieldsets = document.querySelectorAll('fieldset');
 
   window.setVisibleElement = function (collection, disabled) {
-    for (var i = 0; i < collection.length; i++) {
-      collection[i].disabled = disabled;
-    }
+    collection.forEach(function (element) {
+      element.disabled = disabled;
+    });
   };
 
   window.setVisibleElement(window.fieldsets, true);
