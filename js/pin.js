@@ -10,7 +10,7 @@
     .content
     .querySelector('.map__pin');
 
-  window.createPinElement = function (arr) {
+  var createPinElement = function (arr) {
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < arr.length; i++) {
@@ -32,17 +32,19 @@
   };
 
 
-  window.createPins = function (data) {
-    window.createPinElement(data);
+  var createPins = function (data) {
+    createPinElement(data);
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var i = 0; i < pins.length; i++) {
-      window.popup.createPopup(pins[i], data[i]);
+      window.popup.create(pins[i], data[i]);
     }
   };
 
   window.pin = {
-    pins: function () {
-      window.backend.getData(window.successHandler, window.data.errorHandler);
-    }
+    activate: function () {
+      window.backend.getData(window.filter.successHandler, window.data.errorHandler);
+    },
+
+    create: createPins
   };
 })();

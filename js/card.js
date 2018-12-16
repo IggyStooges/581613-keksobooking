@@ -19,21 +19,21 @@
   var cardTemplate = document.querySelector('#card')
     .content
     .querySelector('.map__card');
-  window.cardElement = cardTemplate.cloneNode(true);
-  var mapFiltersContainer = window.cardElement.querySelector('.map__filters-container');
+  var cardElement = cardTemplate.cloneNode(true);
 
-  window.popup = window.cardElement.querySelector('.popup');
-  window.popupTitle = window.cardElement.querySelector('.popup__title');
-  window.popupTextAddress = window.cardElement.querySelector('.popup__text--address');
-  window.popupTextPrice = window.cardElement.querySelector('.popup__text--price');
-  window.popupTextCapacity = window.cardElement.querySelector('.popup__text--capacity');
-  window.popupTextTime = window.cardElement.querySelector('.popup__text--time');
-  window.popupFeaturesList = window.cardElement.querySelector('.popup__features');
-  var popupFeature = window.popupFeaturesList.querySelector('.popup__feature:first-of-type');
-  window.popupDescription = window.cardElement.querySelector('.popup__description');
-  window.popupPhotos = window.cardElement.querySelector('.popup__photos');
-  window.popupPhoto = window.cardElement.querySelector('.popup__photo');
-  window.popupAvatar = window.cardElement.querySelector('.popup__avatar');
+  var mapFiltersContainer = cardElement.querySelector('.map__filters-container');
+
+  var popupTitle = cardElement.querySelector('.popup__title');
+  var popupTextAddress = cardElement.querySelector('.popup__text--address');
+  var popupTextPrice = cardElement.querySelector('.popup__text--price');
+  var popupTextCapacity = cardElement.querySelector('.popup__text--capacity');
+  var popupTextTime = cardElement.querySelector('.popup__text--time');
+  var popupFeaturesList = cardElement.querySelector('.popup__features');
+  var popupFeature = popupFeaturesList.querySelector('.popup__feature:first-of-type');
+  var popupDescription = cardElement.querySelector('.popup__description');
+  var popupPhotos = cardElement.querySelector('.popup__photos');
+  var popupPhoto = cardElement.querySelector('.popup__photo');
+  var popupAvatar = cardElement.querySelector('.popup__avatar');
 
   var generateArrayAddressesImages = function (numberOfImages) {
     var arrayAddressesImages = [];
@@ -68,14 +68,14 @@
   var renderPictures = function (arrayElement) {
     var offerPhoto = arrayElement.offer.photos[0];
 
-    window.popupPhoto.src = offerPhoto;
-    window.popupPhotos.innerHTML = '';
+    popupPhoto.src = offerPhoto;
+    popupPhotos.innerHTML = '';
 
     for (var i = 0; i < arrayElement.offer.photos.length; i++) {
 
-      var newElement = window.popupPhoto.cloneNode(true);
+      var newElement = popupPhoto.cloneNode(true);
       newElement.src = arrayElement.offer.photos[i];
-      window.popupPhotos.appendChild(newElement);
+      popupPhotos.appendChild(newElement);
     }
   };
 
@@ -87,7 +87,7 @@
       },
       offer: {
         title: titles[getRandomNumber(titles.length, 0)],
-        address: getRandomNumber(window.blockWidth, 0) + ', ' + getRandomNumber(window.data.MAX_Y_COORDINATE, window.data.MIN_Y_COORDINATE),
+        address: getRandomNumber(window.data.blockWidth, 0) + ', ' + getRandomNumber(window.data.MAX_Y_COORDINATE, window.data.MIN_Y_COORDINATE),
         price: getRandomNumber(MAX_PRICE, MIN_PRICE),
         type: types[getRandomNumber(types.length, 0)],
         rooms: getRandomNumber(MAX_ROOMS, MIN_ROOMS),
@@ -99,7 +99,7 @@
         photos: getArrayRandom(photos.length, photos)
       },
       location: {
-        x: getRandomNumber(window.blockWidth, 0),
+        x: getRandomNumber(window.data.blockWidth, 0),
         y: getRandomNumber(window.data.MAX_Y_COORDINATE, window.data.MIN_Y_COORDINATE)
       }
     };
@@ -108,12 +108,12 @@
 
 
   var renderFeatures = function (arrayElement) {
-    window.popupFeaturesList.innerHTML = '';
+    popupFeaturesList.innerHTML = '';
     var offerFeatures = arrayElement.offer.features;
     for (var i = 0; i < offerFeatures.length; i++) {
       var newElement = popupFeature.cloneNode(true);
       newElement.className = 'popup__feature popup__feature' + '--' + offerFeatures[i];
-      window.popupFeaturesList.appendChild(newElement);
+      popupFeaturesList.appendChild(newElement);
     }
 
   };
@@ -142,7 +142,7 @@
 
   var generateHouseType = function (arrayElement) {
     var offerType = arrayElement.offer.type;
-    var popupType = window.cardElement.querySelector('.popup__type');
+    var popupType = cardElement.querySelector('.popup__type');
 
     if (offerType === 'flat') {
       popupType.textContent = ApartmentType.FLAT;
@@ -161,6 +161,7 @@
 
 
   window.card = {
+
     createArrayData: function (arrLength) {
       var cards = [];
 
@@ -176,22 +177,33 @@
       var rooms = arrayElement.offer.rooms;
       var guests = arrayElement.offer.guests;
 
-      window.popupTitle.textContent = arrayElement.offer.title;
-      window.popupTextAddress.textContent = arrayElement.offer.address;
-      window.popupTextPrice.textContent = arrayElement.offer.price + '₽/ночь';
+      popupTitle.textContent = arrayElement.offer.title;
+      popupTextAddress.textContent = arrayElement.offer.address;
+      popupTextPrice.textContent = arrayElement.offer.price + '₽/ночь';
 
       generateHouseType(arrayElement);
-      window.popupTextCapacity.textContent = rooms + generateDeclensionRooms(arrayElement) + guests + generateDeclensionGuests(arrayElement);
+      popupTextCapacity.textContent = rooms + generateDeclensionRooms(arrayElement) + guests + generateDeclensionGuests(arrayElement);
 
-      window.popupTextTime.textContent = 'Заезд после ' + checkin + ', выезд до ' + checkout;
+      popupTextTime.textContent = 'Заезд после ' + checkin + ', выезд до ' + checkout;
       renderFeatures(arrayElement);
-      window.popupDescription.textContent = arrayElement.offer.description;
+      popupDescription.textContent = arrayElement.offer.description;
 
       renderPictures(arrayElement);
-      window.popupAvatar.src = arrayElement.author.avatar;
-      window.data.map.insertBefore(window.cardElement, mapFiltersContainer);
+      popupAvatar.src = arrayElement.author.avatar;
+      window.data.map.insertBefore(cardElement, mapFiltersContainer);
 
-    }
+    },
+
+    cardElement: cardElement,
+    title: popupTitle,
+    address: popupTextAddress,
+    price: popupTextPrice,
+    capacity: popupTextCapacity,
+    time: popupTextTime,
+    featuresList: popupFeaturesList,
+    description: popupDescription,
+    photos: popupPhotos
+
 
   };
 

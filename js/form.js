@@ -1,10 +1,8 @@
 'use strict';
 
 (function () {
-  window.form = {
-    reset: document.querySelector('.ad-form__reset'),
-    ad: document.querySelector('.ad-form')
-  };
+  var reset = document.querySelector('.ad-form__reset');
+  var adForm = document.querySelector('.ad-form');
   var typeSelect = document.querySelector('#type');
 
   var changePriceByType = function () {
@@ -43,11 +41,11 @@
   typeSelect.addEventListener('mouseup', changePriceByType);
 
   var resetpagebyreset = function () {
-    window.form.reset.addEventListener('click', function (evt) {
+    reset.addEventListener('click', function (evt) {
       changePriceByType();
       evt.preventDefault();
-      window.resetPage();
-      window.form.reset.removeEventListener('click', resetpagebyreset);
+      window.dragndrop.reset();
+      reset.removeEventListener('click', resetpagebyreset);
       changePriceByType();
     });
   };
@@ -86,7 +84,7 @@
 
   var createSuccessMessage = function () {
 
-    window.form.ad.addEventListener('submit', function (evt) {
+    adForm.addEventListener('submit', function (evt) {
 
       var sendSuccess = function () {
         var element = document.querySelector('.success');
@@ -97,24 +95,24 @@
 
         var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
         if (element) {
-          window.window.form.ad.removeChild(element);
+          adForm.removeChild(element);
         }
-        window.window.form.ad.appendChild(adFormSuccesWindow);
+        adForm.appendChild(adFormSuccesWindow);
 
         adFormSuccesWindow.addEventListener('click', function () {
-          window.window.form.ad.removeChild(adFormSuccesWindow);
+          adForm.removeChild(adFormSuccesWindow);
         });
 
         window.addEventListener('keydown', function (escEvt) {
           if (escEvt.keyCode === window.data.ESC_KEYCODE) {
-            window.adForm.removeChild(adFormSuccesWindow);
+            adForm.removeChild(adFormSuccesWindow);
           }
         });
 
       };
 
       window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
-      window.resetPage();
+      window.dragndrop.reset();
       evt.preventDefault();
 
     });
@@ -130,4 +128,9 @@
   };
 
   sendingForm();
+
+  window.form = {
+    reset: reset,
+    ad: adForm
+  };
 })();
