@@ -36,26 +36,13 @@
 
       window.addEventListener('keydown', onErrorMessageEscPress);
 
-      errorElement.addEventListener('click', function () {
+      errorButton.addEventListener('click', function () {
         closeErrorMessage();
-        errorElement.removeEventListener('click', closeErrorMessage);
+        errorButton.removeEventListener('click', closeErrorMessage);
         window.removeEventListener('keydown', onErrorMessageEscPress);
       });
 
-      errorButton.addEventListener('click', function (evt) {
-        evt.preventDefault();
-        main.removeChild(errorElement);
-      });
 
-      window.addEventListener('keydown', function (escEvt) {
-        if (escEvt.keyCode === window.data.ESC_KEYCODE) {
-          main.removeChild(errorElement);
-        }
-      });
-
-      errorElement.addEventListener('click', function () {
-        main.removeChild(errorElement);
-      });
     }
   };
 

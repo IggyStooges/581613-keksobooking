@@ -120,17 +120,16 @@
 
   };
 
-  var createSuccessMessage = function () {
-
-    adForm.addEventListener('submit', function (evt) {
-      evt.preventDefault();
-      adForm.removeEventListener('submit', createSuccessMessage);
-      window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
-      window.dragndrop.reset();
-
-    });
+  var createSuccessMessage = function (evt) {
+    evt.preventDefault();
+    adForm.removeEventListener('submit', createSuccessMessage);
+    window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
+    window.dragndrop.reset();
+    adForm.removeEventListener('submit', createSuccessMessage);
 
   };
+
+  adForm.addEventListener('submit', createSuccessMessage);
 
   var sendingForm = function () {
     changePriceByType();
@@ -138,7 +137,6 @@
     changeTime(timeOut, timeIn);
     compareRooms(roomNumber);
     compareRooms(capacity);
-    createSuccessMessage();
 
   };
 
