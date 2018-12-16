@@ -23,6 +23,25 @@
       errorElement.style.textContent = errorMessage;
       main.insertAdjacentElement('afterbegin', errorElement);
 
+      var closeErrorMessage = function () {
+        errorElement.remove();
+      };
+
+      var onErrorMessageEscPress = function (escEvt) {
+        if (escEvt.keyCode === window.data.ESC_KEYCODE) {
+          closeErrorMessage();
+        }
+        window.removeEventListener('keydown', onErrorMessageEscPress);
+      };
+
+      window.addEventListener('keydown', onErrorMessageEscPress);
+
+      errorElement.addEventListener('click', function () {
+        closeErrorMessage();
+        errorElement.removeEventListener('click', closeErrorMessage);
+        window.removeEventListener('keydown', onErrorMessageEscPress);
+      });
+
       errorButton.addEventListener('click', function (evt) {
         evt.preventDefault();
         main.removeChild(errorElement);

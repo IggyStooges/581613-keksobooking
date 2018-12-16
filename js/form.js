@@ -82,40 +82,54 @@
     });
   };
 
+
+  var sendSuccess = function () {
+    var element = document.querySelector('.success');
+
+    var adFormSuccesTemplate = document.querySelector('#success')
+      .content
+      .querySelector('.success');
+
+    var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
+    if (element) {
+      adForm.removeChild(element);
+    }
+    adForm.appendChild(adFormSuccesWindow);
+
+    var main = document.querySelector('main');
+    var success = main.querySelector('.success');
+
+    var closeSuccesMessage = function () {
+      success.remove();
+    };
+
+    var onSuccesMessageEscPress = function (escEvt) {
+      if (escEvt.keyCode === window.data.ESC_KEYCODE) {
+        closeSuccesMessage();
+      }
+      window.removeEventListener('keydown', onSuccesMessageEscPress);
+    };
+
+    window.addEventListener('keydown', onSuccesMessageEscPress);
+
+    success.addEventListener('click', function () {
+      closeSuccesMessage();
+      success.removeEventListener('click', closeSuccesMessage);
+      window.removeEventListener('keydown', onSuccesMessageEscPress);
+    });
+
+  };
+
   var createSuccessMessage = function () {
 
     adForm.addEventListener('submit', function (evt) {
-
-      var sendSuccess = function () {
-        var element = document.querySelector('.success');
-
-        var adFormSuccesTemplate = document.querySelector('#success')
-          .content
-          .querySelector('.success');
-
-        var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
-        if (element) {
-          adForm.removeChild(element);
-        }
-        adForm.appendChild(adFormSuccesWindow);
-
-        adFormSuccesWindow.addEventListener('click', function () {
-          adForm.removeChild(adFormSuccesWindow);
-        });
-
-        window.addEventListener('keydown', function (escEvt) {
-          if (escEvt.keyCode === window.data.ESC_KEYCODE) {
-            adForm.removeChild(adFormSuccesWindow);
-          }
-        });
-
-      };
-
+      evt.preventDefault();
+      adForm.removeEventListener('submit', createSuccessMessage);
       window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
       window.dragndrop.reset();
-      evt.preventDefault();
 
     });
+
   };
 
   var sendingForm = function () {
@@ -125,6 +139,7 @@
     compareRooms(roomNumber);
     compareRooms(capacity);
     createSuccessMessage();
+
   };
 
   sendingForm();
