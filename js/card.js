@@ -194,7 +194,7 @@
 
     },
 
-    cardElement: cardElement,
+    popup: cardElement,
     title: popupTitle,
     address: popupTextAddress,
     price: popupTextPrice,
@@ -203,7 +203,6 @@
     featuresList: popupFeaturesList,
     description: popupDescription,
     photos: popupPhotos
-
 
   };
 

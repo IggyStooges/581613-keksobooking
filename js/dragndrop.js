@@ -73,7 +73,7 @@
     });
 
     if (window.card.cardElement) {
-      window.card.cardElement.remove();
+      window.popup.close();
     }
 
     window.form.ad.reset();

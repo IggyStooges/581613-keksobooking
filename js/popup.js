@@ -6,7 +6,7 @@
     hidePopupBlock();
   };
 
-  var closeButton = window.card.cardElement.querySelector('.popup__close');
+  var closeButton = window.card.popup.querySelector('.popup__close');
 
   var createPopup = function (currentPin, currentIndex) {
     var pins = window.data.map.querySelectorAll('.map__pin');
@@ -17,13 +17,12 @@
       });
 
       currentPin.classList.add('map__pin--active');
-      window.card.cardElement.classList.remove('hidden');
+      window.card.popup.classList.remove('hidden');
 
-      openPopup(currentIndex, window.card.cardElement);
+      openPopup(currentIndex, window.card.popup);
       document.addEventListener('keydown', closePopupEscHandler);
 
     };
-
 
     closeButton.addEventListener('click', closePopup);
     currentPin.removeEventListener('click', createPopupHandler);
@@ -32,7 +31,7 @@
   };
 
   var closePopup = function () {
-    window.card.cardElement.remove();
+    window.card.popup.remove();
     document.removeEventListener('keydown', closePopupEscHandler);
 
   };
@@ -60,7 +59,8 @@
   };
 
   window.popup = {
-    create: createPopup
+    create: createPopup,
+    close: closePopup
   };
 
 
