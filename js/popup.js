@@ -1,9 +1,15 @@
 'use strict';
 (function () {
 
+  var openPopup = function (currentIndex) {
+    window.card.createCard(currentIndex);
+    hidePopupBlock();
+  };
+
+  var closeButton = window.card.cardElement.querySelector('.popup__close');
+
   var createPopup = function (currentPin, currentIndex) {
     var pins = window.data.map.querySelectorAll('.map__pin');
-    var popup = window.data.map.querySelector('.map__card');
 
     var createPopupHandler = function () {
       pins.forEach(function (element) {
@@ -11,49 +17,31 @@
       });
 
       currentPin.classList.add('map__pin--active');
+      window.card.cardElement.classList.remove('hidden');
 
-      openPopup(currentIndex, popup);
-      closePopup(window.card.cardElement);
+      openPopup(currentIndex, window.card.cardElement);
+      document.addEventListener('keydown', closePopupEscHandler);
 
     };
-    currentPin.removeEventListener('click', createPopupHandler);
 
+
+    closeButton.addEventListener('click', closePopup);
+    currentPin.removeEventListener('click', createPopupHandler);
     currentPin.addEventListener('click', createPopupHandler);
 
   };
 
-  var openPopup = function (currentIndex, popUpBlock) {
-    if (popUpBlock) {
-      window.data.map.removeChild(popUpBlock);
-    }
+  var closePopup = function () {
+    window.card.cardElement.remove();
+    document.removeEventListener('keydown', closePopupEscHandler);
 
-    window.card.createCard(currentIndex);
-    hidePopupBlock();
   };
 
-  var closePopup = function (popUpBlock) {
-    var closeButton = document.querySelector('.popup__close');
-
-    var closePopupHandler = function () {
-      popUpBlock.classList.add('hidden');
-      closeButton.removeEventListener('click', closePopupHandler);
-      window.removeEventListener('keydown', closePopupEscHandler);
-    };
-
-    var closePopupEscHandler = function (evt) {
-      if (evt.keyCode === window.data.ESC_KEYCODE) {
-        closePopupHandler();
-        closeButton.removeEventListener('click', closePopupEscHandler);
-      }
-    };
-
-
-    if (popUpBlock) {
-      popUpBlock.classList.remove('hidden');
-      closeButton.addEventListener('click', closePopupHandler);
-      window.addEventListener('keydown', closePopupEscHandler);
+  var closePopupEscHandler = function (evt) {
+    if (evt.keyCode === window.data.ESC_KEYCODE) {
+      closePopup();
+      closeButton.removeEventListener('click', closePopupEscHandler);
     }
-
   };
 
   var hideEmptyBlock = function (block) {

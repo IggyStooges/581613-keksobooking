@@ -71,10 +71,11 @@
         item.remove();
       }
     });
-    var popup = document.querySelector('.popup');
-    if (popup) {
-      popup.remove();
+
+    if (window.card.cardElement) {
+      window.card.cardElement.remove();
     }
+
     window.form.ad.reset();
     window.filter.form.reset();
     mainPinMap.style.left = resetCoordsinateX;
