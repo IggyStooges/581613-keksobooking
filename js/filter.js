@@ -125,8 +125,10 @@
     var filteredAdvertsByFeatures = updateAdvertsByFeatures(filteredAdvertsByGuests);
 
     var advertsFilteredByOffer = filteredAdvertsByFeatures;
+
     window.pin.create(advertsFilteredByOffer);
-    window.card.popup.classList.add('hidden');
+
+    window.popup.close();
   });
 
   var successHandler = function (data) {

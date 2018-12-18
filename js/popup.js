@@ -31,7 +31,7 @@
   };
 
   var closePopup = function () {
-    window.card.popup.remove();
+    window.card.popup.classList.add('hidden');
     document.removeEventListener('keydown', closePopupEscHandler);
 
   };
