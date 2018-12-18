@@ -126,7 +126,7 @@
 
     var advertsFilteredByOffer = filteredAdvertsByFeatures;
     window.pin.create(advertsFilteredByOffer);
-    window.card.cardElement.classList.add('hidden');
+    window.card.popup.classList.add('hidden');
   });
 
   var successHandler = function (data) {
