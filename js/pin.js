@@ -13,20 +13,19 @@
   var createPinElement = function (arr) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < arr.length; i++) {
+    arr.forEach(function (element, i) {
       var pinElement = mapPinTemplate.cloneNode(true);
       var pinImg = pinElement.querySelector('img');
-      pinElement.style.left = arr[i].location.x + 'px';
-      pinElement.style.top = arr[i].location.y - PIN_HEIGHT + 'px';
+      pinElement.style.left = element.location.x + 'px';
+      pinElement.style.top = element.location.y - PIN_HEIGHT + 'px';
       pinElement.style.marginLeft = (-PIN_WIDTH / 2) + 'px';
       pinElement.style.marginTop = (-PIN_HEIGHT) + 'px';
-      pinImg.src = arr[i].author.avatar;
-      pinImg.alt = arr[i].offer.title;
-      if ('offer' in arr[i] && i < NUMBER_DISPLAYED_PINS) {
+      pinImg.src = element.author.avatar;
+      pinImg.alt = element.offer.title;
+      if ('offer' in element && i < NUMBER_DISPLAYED_PINS) {
         fragment.appendChild(pinElement);
       }
-    }
-
+    });
     mapPins.appendChild(fragment);
 
   };

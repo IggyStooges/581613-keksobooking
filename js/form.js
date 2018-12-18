@@ -1,6 +1,13 @@
 'use strict';
 
 (function () {
+  var minPrice = {
+    BUNGALO: '0',
+    FLAT: '1000',
+    HOUSE: '5000',
+    PALACE: '10000'
+  };
+
   var reset = document.querySelector('.ad-form__reset');
   var adForm = document.querySelector('.ad-form');
   var typeSelect = document.querySelector('#type');
@@ -9,13 +16,6 @@
     var selectedOptionIndex = typeSelect.options.selectedIndex;
     var typeOption = typeSelect.querySelectorAll('option');
     var priceInput = document.querySelector('#price');
-
-    var minPrice = {
-      BUNGALO: '0',
-      FLAT: '1000',
-      HOUSE: '5000',
-      PALACE: '10000'
-    };
 
     if (typeOption[selectedOptionIndex].text === 'Бунгало') {
       priceInput.min = minPrice.BUNGALO;
@@ -122,11 +122,9 @@
 
   var createSuccessMessage = function (evt) {
     evt.preventDefault();
-    adForm.removeEventListener('submit', createSuccessMessage);
     window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
     window.dragndrop.reset();
     adForm.removeEventListener('submit', createSuccessMessage);
-
   };
 
   adForm.addEventListener('submit', createSuccessMessage);

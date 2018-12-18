@@ -1,5 +1,15 @@
 'use strict';
 (function () {
+  var PriceValue = {
+    LOW: 10000,
+    HIGH: 50000
+  };
+  var PriceGradation = {
+    LOW: 'low',
+    MIDDLE: 'middle',
+    HIGH: 'hidh',
+  };
+
   var filterForm = document.querySelector('.map__filters');
   var filterSelects = filterForm.querySelectorAll('select');
   var filterbyType = filterForm.querySelector('#housing-type');
@@ -31,30 +41,21 @@
     var selectedOptionIndex = filterbyPrice.options.selectedIndex;
     var filterbyPriceOptions = filterbyPrice.querySelectorAll('option');
     var selectedOptionValue = filterbyPriceOptions[selectedOptionIndex].value;
-    var PriceValue = {
-      LOW: 10000,
-      HIGH: 50000
-    };
-    var PriceGradation = {
-      LOW: 'low',
-      MIDDLE: 'middle',
-      HIGH: 'hidh',
-    };
 
     if (selectedOptionValue === PriceGradation.LOW) {
       return arrayOfAdverts.filter(function (ad) {
-        return ad.offer.price <= PriceValue.LOW;
+        return ad.offer.price < PriceValue.LOW;
       });
     }
     if (selectedOptionValue === PriceGradation.MIDDLE) {
       return arrayOfAdverts.filter(function (ad) {
-        return (ad.offer.price <= 50000 && ad.offer.price >= 10000);
+        return (ad.offer.price <= PriceValue.HIGH && ad.offer.price >= PriceValue.LOW);
       });
     }
     if (selectedOptionValue === PriceGradation.HIGH) {
       return arrayOfAdverts.
       filter(function (ad) {
-        return ad.offer.price >= 50000;
+        return ad.offer.price > PriceValue.HIGH;
       });
     }
     return arrayOfAdverts;
@@ -126,7 +127,6 @@
     var advertsFilteredByOffer = filteredAdvertsByFeatures;
     window.pin.create(advertsFilteredByOffer);
     window.card.cardElement.classList.add('hidden');
-
   });
 
   var successHandler = function (data) {
@@ -138,7 +138,6 @@
       element.removeEventListener('change', createPinsByFilteredAdverts);
 
       element.addEventListener('change', createPinsByFilteredAdverts);
-
     });
 
   };

@@ -5,19 +5,21 @@
     var pins = window.data.map.querySelectorAll('.map__pin');
     var popup = window.data.map.querySelector('.map__card');
 
-    currentPin.addEventListener('click', function () {
+    var createPopupHandler = function () {
       pins.forEach(function (element) {
-        element.classList.remove('.map__pin--active');
+        element.classList.remove('map__pin--active');
       });
 
-      currentPin.classList.add('.map__pin--active');
+      currentPin.classList.add('map__pin--active');
 
       openPopup(currentIndex, popup);
       closePopup(window.card.cardElement);
 
-      currentPin.removeEventListener('click', window.popup.createPopup);
+    };
+    currentPin.removeEventListener('click', createPopupHandler);
 
-    });
+    currentPin.addEventListener('click', createPopupHandler);
+
   };
 
   var openPopup = function (currentIndex, popUpBlock) {
@@ -32,22 +34,24 @@
   var closePopup = function (popUpBlock) {
     var closeButton = document.querySelector('.popup__close');
 
+    var closePopupHandler = function () {
+      popUpBlock.classList.add('hidden');
+      closeButton.removeEventListener('click', closePopupHandler);
+      window.removeEventListener('keydown', closePopupEscHandler);
+    };
+
+    var closePopupEscHandler = function (evt) {
+      if (evt.keyCode === window.data.ESC_KEYCODE) {
+        closePopupHandler();
+        closeButton.removeEventListener('click', closePopupEscHandler);
+      }
+    };
+
+
     if (popUpBlock) {
-
       popUpBlock.classList.remove('hidden');
-      closeButton.addEventListener('click', function () {
-        popUpBlock.classList.add('hidden');
-        closeButton.removeEventListener('click', closePopup);
-      });
-
-      window.data.map.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === window.data.ESC_KEYCODE) {
-          popUpBlock.classList.add('hidden');
-          window.data.map.removeEventListener('keydown', closePopup);
-        }
-
-      });
-
+      closeButton.addEventListener('click', closePopupHandler);
+      window.addEventListener('keydown', closePopupEscHandler);
     }
 
   };

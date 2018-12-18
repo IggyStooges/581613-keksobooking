@@ -1,6 +1,10 @@
 'use strict';
 (function () {
   var IMAGES_TYPE = ['gif', 'jpg', 'jpeg', 'png'];
+  var ImagesSize = {
+    WIDTH: '70px',
+    HEIGHT: '70px'
+  };
 
   var avatarUploadField = document.querySelector('.ad-form-header__upload');
   var avatarChooser = avatarUploadField.querySelector('.ad-form-header__input');
@@ -42,8 +46,8 @@
       reader.addEventListener('load', function () {
         var img = document.createElement('img');
         img.src = reader.result;
-        img.style.width = '70px';
-        img.style.height = '70px';
+        img.style.width = ImagesSize.WIDTH;
+        img.style.height = ImagesSize.HEIGHT;
         photosPreview.appendChild(img);
       });
 
