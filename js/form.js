@@ -44,7 +44,7 @@
     reset.addEventListener('click', function (evt) {
       changePriceByType();
       evt.preventDefault();
-      window.dragndrop.reset();
+      window.dragandrop.reset();
       reset.removeEventListener('click', resetpagebyreset);
       changePriceByType();
     });
@@ -123,7 +123,7 @@
   var createSuccessMessage = function (evt) {
     evt.preventDefault();
     window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
-    window.dragndrop.reset();
+    window.dragandrop.reset();
     adForm.removeEventListener('submit', createSuccessMessage);
   };
 

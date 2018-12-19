@@ -18,11 +18,11 @@
     var avatar = avatarChooser.files[0];
     var avatarFileName = avatar.name.toLowerCase();
 
-    var matches = IMAGES_TYPE.some(function (it) {
+    var isMatches = IMAGES_TYPE.some(function (it) {
       return avatarFileName.endsWith(it);
     });
 
-    if (matches) {
+    if (isMatches) {
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
@@ -36,11 +36,11 @@
     var photo = photosChooser.files[0];
     var photoFileName = photo.name.toLowerCase();
 
-    var matches = IMAGES_TYPE.some(function (it) {
+    var isMatches = IMAGES_TYPE.some(function (it) {
       return photoFileName.endsWith(it);
     });
 
-    if (matches) {
+    if (isMatches) {
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {

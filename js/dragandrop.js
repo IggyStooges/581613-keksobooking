@@ -8,8 +8,8 @@
   var resetCoordsinateY = mainPinMap.style.top;
 
   var calculateCoordinates = function () {
-    var coordinateAddressX = parseInt(mainPinMap.style.left, 10) + Math.floor(mainPinMap.offsetWidth / 2);
-    var coordinateAddressY = parseInt(mainPinMap.style.top, 10) + Math.floor(mainPinMap.offsetHeight);
+    var coordinateAddressX = parseInt(resetCoordsinateX, 10) + Math.floor(mainPinMap.offsetWidth / 2);
+    var coordinateAddressY = parseInt(resetCoordsinateY, 10) + Math.floor(mainPinMap.offsetHeight);
     var coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
     inputAddress.value = coordinateAddress;
   };
@@ -84,7 +84,7 @@
     window.map.setVisibleElement(window.map.fieldsets, true);
   };
 
-  window.dragndrop = {
+  window.dragandrop = {
     reset: resetPage
   };
 

@@ -46,15 +46,12 @@
       return arrayOfAdverts.filter(function (ad) {
         return ad.offer.price < PriceValue.LOW;
       });
-    }
-    if (selectedOptionValue === PriceGradation.MIDDLE) {
+    } else if (selectedOptionValue === PriceGradation.MIDDLE) {
       return arrayOfAdverts.filter(function (ad) {
         return (ad.offer.price <= PriceValue.HIGH && ad.offer.price >= PriceValue.LOW);
       });
-    }
-    if (selectedOptionValue === PriceGradation.HIGH) {
-      return arrayOfAdverts.
-      filter(function (ad) {
+    } else if (selectedOptionValue === PriceGradation.HIGH) {
+      return arrayOfAdverts.filter(function (ad) {
         return ad.offer.price > PriceValue.HIGH;
       });
     }
