@@ -33,7 +33,6 @@
   var closePopup = function () {
     window.card.popup.classList.add('hidden');
     document.removeEventListener('keydown', closePopupEscHandler);
-
   };
 
   var closePopupEscHandler = function (evt) {
