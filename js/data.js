@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var map = document.querySelector('.map');
 
   window.data = {
     CARDS_LENGTH: 8,
@@ -7,7 +8,9 @@
     MAX_Y_COORDINATE: 630,
     MIN_Y_COORDINATE: 130,
     MIN_X_COORDS: 0,
-    map: document.querySelector('.map'),
+    map: map,
+    blockWidth: map.offsetWidth,
+
 
     errorHandler: function (errorMessage) {
       var main = document.querySelector('main');
@@ -20,20 +23,26 @@
       errorElement.style.textContent = errorMessage;
       main.insertAdjacentElement('afterbegin', errorElement);
 
-      errorButton.addEventListener('click', function (evt) {
-        evt.preventDefault();
-        main.removeChild(errorElement);
-      });
+      var closeErrorMessage = function () {
+        errorElement.remove();
+      };
 
-      window.addEventListener('keydown', function (escEvt) {
+      var onErrorMessageEscPress = function (escEvt) {
         if (escEvt.keyCode === window.data.ESC_KEYCODE) {
-          main.removeChild(errorElement);
+          closeErrorMessage();
         }
+        window.removeEventListener('keydown', onErrorMessageEscPress);
+      };
+
+      window.addEventListener('keydown', onErrorMessageEscPress);
+
+      errorButton.addEventListener('click', function () {
+        closeErrorMessage();
+        errorButton.removeEventListener('click', closeErrorMessage);
+        window.removeEventListener('keydown', onErrorMessageEscPress);
       });
 
-      window.addEventListener('click', function () {
-        main.removeChild(errorElement);
-      });
+
     }
   };
 

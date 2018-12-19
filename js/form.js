@@ -1,25 +1,21 @@
 'use strict';
 
 (function () {
-  window.form = {
-    reset: document.querySelector('.ad-form__reset'),
-    ad: document.querySelector('.ad-form')
+  var minPrice = {
+    BUNGALO: '0',
+    FLAT: '1000',
+    HOUSE: '5000',
+    PALACE: '10000'
   };
+
+  var reset = document.querySelector('.ad-form__reset');
+  var adForm = document.querySelector('.ad-form');
   var typeSelect = document.querySelector('#type');
-  var selectedOptionIndex = typeSelect.options.selectedIndex;
 
   var changePriceByType = function () {
-    var minPrice = {
-      BUNGALO: '0',
-      FLAT: '1000',
-      HOUSE: '5000',
-      PALACE: '10000'
-    };
-
+    var selectedOptionIndex = typeSelect.options.selectedIndex;
     var typeOption = typeSelect.querySelectorAll('option');
     var priceInput = document.querySelector('#price');
-    typeOption[selectedOptionIndex].value = '';
-
 
     if (typeOption[selectedOptionIndex].text === 'Бунгало') {
       priceInput.min = minPrice.BUNGALO;
@@ -40,21 +36,17 @@
       priceInput.min = minPrice.PALACE;
       priceInput.placeholder = minPrice.PALACE;
     }
-    typeSelect.addEventListener('change', function () {
-      changePriceByType();
-    });
-
-
   };
 
+  typeSelect.addEventListener('mouseup', changePriceByType);
+
   var resetpagebyreset = function () {
-    window.form.reset.addEventListener('click', function (evt) {
-      typeSelect.value = '';
+    reset.addEventListener('click', function (evt) {
       changePriceByType();
       evt.preventDefault();
-      window.resetPage();
-      window.isMapActivated = false;
-      window.form.reset.removeEventListener('click', resetpagebyreset);
+      window.dragndrop.reset();
+      reset.removeEventListener('click', resetpagebyreset);
+      changePriceByType();
     });
   };
 
@@ -90,41 +82,52 @@
     });
   };
 
-  var createSuccessMessage = function () {
 
-    window.form.ad.addEventListener('submit', function (evt) {
+  var sendSuccess = function () {
+    var element = document.querySelector('.success');
 
-      var sendSuccess = function () {
-        var element = document.querySelector('.success');
+    var adFormSuccesTemplate = document.querySelector('#success')
+      .content
+      .querySelector('.success');
 
-        var adFormSuccesTemplate = document.querySelector('#success')
-          .content
-          .querySelector('.success');
+    var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
+    if (element) {
+      adForm.removeChild(element);
+    }
+    adForm.appendChild(adFormSuccesWindow);
 
-        var adFormSuccesWindow = adFormSuccesTemplate.cloneNode(true);
-        if (element) {
-          window.window.form.ad.removeChild(element);
-        }
-        window.window.form.ad.appendChild(adFormSuccesWindow);
+    var main = document.querySelector('main');
+    var success = main.querySelector('.success');
 
-        adFormSuccesWindow.addEventListener('click', function () {
-          window.window.form.ad.removeChild(adFormSuccesWindow);
-        });
+    var closeSuccesMessage = function () {
+      success.remove();
+    };
 
-        window.addEventListener('keydown', function (escEvt) {
-          if (escEvt.keyCode === window.data.ESC_KEYCODE) {
-            window.adForm.removeChild(adFormSuccesWindow);
-          }
-        });
+    var onSuccesMessageEscPress = function (escEvt) {
+      if (escEvt.keyCode === window.data.ESC_KEYCODE) {
+        closeSuccesMessage();
+      }
+      window.removeEventListener('keydown', onSuccesMessageEscPress);
+    };
 
-      };
+    window.addEventListener('keydown', onSuccesMessageEscPress);
 
-      window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
-      window.resetPage();
-      evt.preventDefault();
-
+    success.addEventListener('click', function () {
+      closeSuccesMessage();
+      success.removeEventListener('click', closeSuccesMessage);
+      window.removeEventListener('keydown', onSuccesMessageEscPress);
     });
+
   };
+
+  var createSuccessMessage = function (evt) {
+    evt.preventDefault();
+    window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
+    window.dragndrop.reset();
+    adForm.removeEventListener('submit', createSuccessMessage);
+  };
+
+  adForm.addEventListener('submit', createSuccessMessage);
 
   var sendingForm = function () {
     changePriceByType();
@@ -132,8 +135,13 @@
     changeTime(timeOut, timeIn);
     compareRooms(roomNumber);
     compareRooms(capacity);
-    createSuccessMessage();
+
   };
 
   sendingForm();
+
+  window.form = {
+    reset: reset,
+    ad: adForm
+  };
 })();
