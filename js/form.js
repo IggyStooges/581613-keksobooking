@@ -40,17 +40,17 @@
 
   typeSelect.addEventListener('mouseup', changePriceByType);
 
-  var resetpagebyreset = function () {
+  var resetPageByReset = function () {
     reset.addEventListener('click', function (evt) {
       changePriceByType();
       evt.preventDefault();
       window.dragandrop.reset();
-      reset.removeEventListener('click', resetpagebyreset);
+      reset.removeEventListener('click', resetPageByReset);
       changePriceByType();
     });
   };
 
-  resetpagebyreset();
+  resetPageByReset();
 
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');

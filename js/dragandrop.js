@@ -14,6 +14,8 @@
     inputAddress.value = coordinateAddress;
   };
 
+  calculateCoordinates();
+
   mainPinMap.addEventListener('mousedown', function (evt) {
 
     var startCoords = {
@@ -75,7 +77,7 @@
     if (window.card.popup) {
       window.popup.close();
     }
-
+    window.images.reset();
     window.form.ad.reset();
     window.filter.form.reset();
     mainPinMap.style.left = resetCoordsinateX;
