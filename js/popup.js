@@ -33,7 +33,6 @@
   var closePopup = function () {
     window.card.popup.classList.add('hidden');
     document.removeEventListener('keydown', closePopupEscHandler);
-
   };
 
   var closePopupEscHandler = function (evt) {
@@ -52,10 +51,19 @@
   };
 
   var hidePopupBlock = function () {
-    var popupInnerBlocks = [window.card.title, window.card.address, window.card.price, window.card.capacity, window.card.time, window.card.featuresList, window.card.description, window.card.photos];
-    for (var i = 0; i < popupInnerBlocks.length; i++) {
-      hideEmptyBlock(popupInnerBlocks[i]);
-    }
+    var popupInnerBlocks = [
+      window.card.title,
+      window.card.address,
+      window.card.price,
+      window.card.capacity,
+      window.card.time,
+      window.card.featuresList,
+      window.card.description,
+      window.card.photos
+    ];
+    popupInnerBlocks.forEach(function (element) {
+      hideEmptyBlock(element);
+    });
   };
 
   window.popup = {

@@ -4,15 +4,22 @@
   var mainPinMap = document.querySelector('.map__pin--main');
   var inputAddress = document.getElementById('address');
 
-  var resetCoordsinateX = mainPinMap.style.left;
-  var resetCoordsinateY = mainPinMap.style.top;
+  var resetCoordinateX = mainPinMap.style.left;
+  var resetCoordinateY = mainPinMap.style.top;
 
   var calculateCoordinates = function () {
-    var coordinateAddressX = parseInt(mainPinMap.style.left, 10) + Math.floor(mainPinMap.offsetWidth / 2);
-    var coordinateAddressY = parseInt(mainPinMap.style.top, 10) + Math.floor(mainPinMap.offsetHeight);
+    var afterDragCoordinateX = mainPinMap.style.left;
+    var afterDragCoordinateY = mainPinMap.style.top;
+
+    var coordinateAddressX = parseInt(afterDragCoordinateX, 10) + Math.floor(mainPinMap.offsetWidth / 2);
+    var coordinateAddressY = parseInt(afterDragCoordinateY, 10) + Math.floor(mainPinMap.offsetHeight);
+
     var coordinateAddress = coordinateAddressX + ', ' + coordinateAddressY;
+
     inputAddress.value = coordinateAddress;
   };
+
+  calculateCoordinates();
 
   mainPinMap.addEventListener('mousedown', function (evt) {
 
@@ -72,19 +79,19 @@
       }
     });
 
-    if (window.card.cardElement) {
+    if (window.card.popup) {
       window.popup.close();
     }
-
+    window.images.reset();
     window.form.ad.reset();
     window.filter.form.reset();
-    mainPinMap.style.left = resetCoordsinateX;
-    mainPinMap.style.top = resetCoordsinateY;
+    mainPinMap.style.left = resetCoordinateX;
+    mainPinMap.style.top = resetCoordinateY;
     calculateCoordinates();
     window.map.setVisibleElement(window.map.fieldsets, true);
   };
 
-  window.dragndrop = {
+  window.dragandrop = {
     reset: resetPage
   };
 

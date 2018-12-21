@@ -34,9 +34,9 @@
   var createPins = function (data) {
     createPinElement(data);
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var i = 0; i < pins.length; i++) {
-      window.popup.create(pins[i], data[i]);
-    }
+    pins.forEach(function (element, i) {
+      window.popup.create(element, data[i]);
+    });
   };
 
   window.pin = {
