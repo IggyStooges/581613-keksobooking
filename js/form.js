@@ -40,17 +40,16 @@
 
   typeSelect.addEventListener('mouseup', changePriceByType);
 
-  var resetPageByReset = function () {
-    reset.addEventListener('click', function (evt) {
-      changePriceByType();
-      evt.preventDefault();
-      window.dragandrop.reset();
-      reset.removeEventListener('click', resetPageByReset);
-      changePriceByType();
-    });
+  var resetButtonResetPageHandler = function (evt) {
+    changePriceByType();
+    evt.preventDefault();
+    window.dragandrop.reset();
+    reset.removeEventListener('click', resetButtonResetPageHandler);
+    changePriceByType();
   };
 
-  resetPageByReset();
+  reset.addEventListener('click', resetButtonResetPageHandler);
+
 
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');

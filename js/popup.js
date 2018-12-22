@@ -2,7 +2,7 @@
 (function () {
 
   var openPopup = function (currentIndex) {
-    window.card.createCard(currentIndex);
+    window.card.renderPopup(currentIndex);
     hidePopupBlock();
   };
 
