@@ -1,9 +1,5 @@
 'use strict';
 (function () {
-  // var MAX_PRICE = 1000000;
-  // var MIN_PRICE = 1000;
-  // var MAX_ROOMS = 5;
-  // var MIN_ROOMS = 1;
   var ApartmentType = {
     FLAT: 'квартира',
     BUNGALO: 'Бунгало',
