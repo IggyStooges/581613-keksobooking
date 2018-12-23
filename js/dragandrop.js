@@ -69,7 +69,7 @@
   });
 
   var resetPage = function () {
-    window.map.isActivated = false;
+    window.data.isMapActivated = false;
 
     window.data.map.classList.add('map--faded');
     window.form.ad.classList.add('ad-form--disabled');

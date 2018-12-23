@@ -9,7 +9,7 @@
     MIN_X_COORDS: 0,
     map: map,
     blockWidth: map.offsetWidth,
-
+    isMapActivated: false
   };
 
 })();

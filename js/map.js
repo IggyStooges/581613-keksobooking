@@ -1,7 +1,6 @@
 'use strict';
 (function () {
 
-  var isMapActivated = false;
   var mapFilters = document.querySelector('.map__filters');
   var fieldsets = document.querySelectorAll('fieldset');
 
@@ -17,8 +16,8 @@
 
   var activateMap = function () {
 
-    if (!window.isMapActivated) {
-      isMapActivated = true;
+    if (!window.data.isMapActivated) {
+      window.data.isMapActivated = true;
       window.data.map.classList.remove('map--faded');
       window.form.ad.classList.remove('ad-form--disabled');
       setVisibleElement(fieldsets, false);
@@ -29,7 +28,6 @@
   };
 
   window.map = {
-    isActivated: isMapActivated,
     activate: activateMap,
     setVisibleElement: setVisibleElement,
     fieldsets: fieldsets
