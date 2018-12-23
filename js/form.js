@@ -102,19 +102,19 @@
       success.remove();
     };
 
-    var SuccessMessageEscPressHandler = function (escEvt) {
+    var successMessageEscPressHandler = function (escEvt) {
       if (escEvt.keyCode === window.data.ESC_KEYCODE) {
         closeSuccessMessage();
       }
-      window.removeEventListener('keydown', SuccessMessageEscPressHandler);
+      window.removeEventListener('keydown', successMessageEscPressHandler);
     };
 
-    window.addEventListener('keydown', SuccessMessageEscPressHandler);
+    window.addEventListener('keydown', successMessageEscPressHandler);
 
     success.addEventListener('click', function () {
       closeSuccessMessage();
       success.removeEventListener('click', closeSuccessMessage);
-      window.removeEventListener('keydown', SuccessMessageEscPressHandler);
+      window.removeEventListener('keydown', successMessageEscPressHandler);
     });
 
   };
