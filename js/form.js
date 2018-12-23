@@ -98,35 +98,68 @@
     var main = document.querySelector('main');
     var success = main.querySelector('.success');
 
-    var closeSuccesMessage = function () {
+    var closeSuccessMessage = function () {
       success.remove();
     };
 
-    var onSuccesMessageEscPress = function (escEvt) {
+    var SuccessMessageEscPressHandler = function (escEvt) {
       if (escEvt.keyCode === window.data.ESC_KEYCODE) {
-        closeSuccesMessage();
+        closeSuccessMessage();
       }
-      window.removeEventListener('keydown', onSuccesMessageEscPress);
+      window.removeEventListener('keydown', SuccessMessageEscPressHandler);
     };
 
-    window.addEventListener('keydown', onSuccesMessageEscPress);
+    window.addEventListener('keydown', SuccessMessageEscPressHandler);
 
     success.addEventListener('click', function () {
-      closeSuccesMessage();
-      success.removeEventListener('click', closeSuccesMessage);
-      window.removeEventListener('keydown', onSuccesMessageEscPress);
+      closeSuccessMessage();
+      success.removeEventListener('click', closeSuccessMessage);
+      window.removeEventListener('keydown', SuccessMessageEscPressHandler);
     });
 
   };
 
-  var createSuccessMessage = function (evt) {
-    evt.preventDefault();
-    window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
-    window.dragandrop.reset();
-    adForm.removeEventListener('submit', createSuccessMessage);
+  var errorHandler = function (errorMessage) {
+    var main = document.querySelector('main');
+    var errorTemplate = document.querySelector('#error')
+      .content
+      .querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    var errorButton = errorElement.querySelector('.error__button');
+
+    errorElement.style.textContent = errorMessage;
+    main.insertAdjacentElement('afterbegin', errorElement);
+
+    var closeErrorMessage = function () {
+      errorElement.remove();
+    };
+
+    var errorMessageEscPressHandler = function (escEvt) {
+      if (escEvt.keyCode === window.data.ESC_KEYCODE) {
+        closeErrorMessage();
+      }
+      window.removeEventListener('keydown', errorMessageEscPressHandler);
+    };
+
+    window.addEventListener('keydown', errorMessageEscPressHandler);
+
+    errorButton.addEventListener('click', function () {
+      closeErrorMessage();
+      errorButton.removeEventListener('click', closeErrorMessage);
+      window.removeEventListener('keydown', errorMessageEscPressHandler);
+    });
+
+
   };
 
-  adForm.addEventListener('submit', createSuccessMessage);
+  var adFormSubmitHandler = function (evt) {
+    evt.preventDefault();
+    window.backend.sendData(new FormData(adForm), sendSuccess, errorHandler);
+    window.dragandrop.reset();
+    adForm.removeEventListener('submit', adFormSubmitHandler);
+  };
+
+  adForm.addEventListener('submit', adFormSubmitHandler);
 
   var sendingForm = function () {
     changePriceByType();
