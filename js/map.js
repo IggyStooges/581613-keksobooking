@@ -29,7 +29,7 @@
   };
 
   window.map = {
-    isAtivated: isMapActivated,
+    isActivated: isMapActivated,
     activate: activateMap,
     setVisibleElement: setVisibleElement,
     fieldsets: fieldsets
