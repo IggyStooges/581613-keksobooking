@@ -103,7 +103,7 @@
     });
   };
 
-  var filterFormChangeHandler = window.debounce(function () {
+  var filterFormElementChangeHandler = window.debounce(function () {
     var mapPins = document.querySelector('.map__pins');
 
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -134,9 +134,9 @@
     window.pin.create(data);
 
     filterItems.forEach(function (element) {
-      element.removeEventListener('change', filterFormChangeHandler);
+      element.removeEventListener('change', filterFormElementChangeHandler);
 
-      element.addEventListener('change', filterFormChangeHandler);
+      element.addEventListener('change', filterFormElementChangeHandler);
     });
 
   };
