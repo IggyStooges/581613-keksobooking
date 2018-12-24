@@ -103,7 +103,7 @@
     });
   };
 
-  var createPinsByFilteredAdverts = window.debounce(function () {
+  var filterFormChangeHandler = window.debounce(function () {
     var mapPins = document.querySelector('.map__pins');
 
     var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
@@ -134,9 +134,9 @@
     window.pin.create(data);
 
     filterItems.forEach(function (element) {
-      element.removeEventListener('change', createPinsByFilteredAdverts);
+      element.removeEventListener('change', filterFormChangeHandler);
 
-      element.addEventListener('change', createPinsByFilteredAdverts);
+      element.addEventListener('change', filterFormChangeHandler);
     });
 
   };

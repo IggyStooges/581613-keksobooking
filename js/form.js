@@ -8,11 +8,11 @@
     PALACE: '10000'
   };
 
-  var reset = document.querySelector('.ad-form__reset');
+  var resetButton = document.querySelector('.ad-form__reset');
   var adForm = document.querySelector('.ad-form');
   var typeSelect = document.querySelector('#type');
 
-  var changePriceByType = function () {
+  var typeSelectChangeHandler = function () {
     var selectedOptionIndex = typeSelect.options.selectedIndex;
     var typeOption = typeSelect.querySelectorAll('option');
     var priceInput = document.querySelector('#price');
@@ -38,17 +38,17 @@
     }
   };
 
-  typeSelect.addEventListener('mouseup', changePriceByType);
+  typeSelect.addEventListener('mouseup', typeSelectChangeHandler);
 
-  var resetButtonResetPageHandler = function (evt) {
-    changePriceByType();
+  var resetButtonClickHandler = function (evt) {
+    typeSelectChangeHandler();
     evt.preventDefault();
     window.dragandrop.reset();
-    reset.removeEventListener('click', resetButtonResetPageHandler);
-    changePriceByType();
+    resetButton.removeEventListener('click', resetButtonClickHandler);
+    typeSelectChangeHandler();
   };
 
-  reset.addEventListener('click', resetButtonResetPageHandler);
+  resetButton.addEventListener('click', resetButtonClickHandler);
 
 
   var timeIn = document.querySelector('#timein');
@@ -162,7 +162,7 @@
   adForm.addEventListener('submit', adFormSubmitHandler);
 
   var sendingForm = function () {
-    changePriceByType();
+    typeSelectChangeHandler();
     changeTime(timeIn, timeOut);
     changeTime(timeOut, timeIn);
     compareRooms(roomNumber);
@@ -173,7 +173,7 @@
   sendingForm();
 
   window.form = {
-    reset: reset,
+    reset: resetButton,
     ad: adForm
   };
 })();
