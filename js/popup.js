@@ -2,7 +2,7 @@
 (function () {
 
   var openPopup = function (currentIndex) {
-    window.card.createCard(currentIndex);
+    window.card.renderPopup(currentIndex);
     hidePopupBlock();
   };
 
@@ -24,20 +24,20 @@
 
     };
 
-    closeButton.addEventListener('click', closePopup);
+    closeButton.addEventListener('click', closeButtonClickHandler);
     currentPin.removeEventListener('click', createPopupHandler);
     currentPin.addEventListener('click', createPopupHandler);
 
   };
 
-  var closePopup = function () {
+  var closeButtonClickHandler = function () {
     window.card.popup.classList.add('hidden');
     document.removeEventListener('keydown', closePopupEscHandler);
   };
 
   var closePopupEscHandler = function (evt) {
     if (evt.keyCode === window.data.ESC_KEYCODE) {
-      closePopup();
+      closeButtonClickHandler();
       closeButton.removeEventListener('click', closePopupEscHandler);
     }
   };
@@ -68,7 +68,7 @@
 
   window.popup = {
     create: createPopup,
-    close: closePopup
+    close: closeButtonClickHandler
   };
 
 

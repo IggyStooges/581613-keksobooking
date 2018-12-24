@@ -8,11 +8,11 @@
     PALACE: '10000'
   };
 
-  var reset = document.querySelector('.ad-form__reset');
+  var resetButton = document.querySelector('.ad-form__reset');
   var adForm = document.querySelector('.ad-form');
   var typeSelect = document.querySelector('#type');
 
-  var changePriceByType = function () {
+  var typeSelectChangeHandler = function () {
     var selectedOptionIndex = typeSelect.options.selectedIndex;
     var typeOption = typeSelect.querySelectorAll('option');
     var priceInput = document.querySelector('#price');
@@ -38,19 +38,18 @@
     }
   };
 
-  typeSelect.addEventListener('mouseup', changePriceByType);
+  typeSelect.addEventListener('mouseup', typeSelectChangeHandler);
 
-  var resetPageByReset = function () {
-    reset.addEventListener('click', function (evt) {
-      changePriceByType();
-      evt.preventDefault();
-      window.dragandrop.reset();
-      reset.removeEventListener('click', resetPageByReset);
-      changePriceByType();
-    });
+  var resetButtonClickHandler = function (evt) {
+    typeSelectChangeHandler();
+    evt.preventDefault();
+    window.dragandrop.reset();
+    resetButton.removeEventListener('click', resetButtonClickHandler);
+    typeSelectChangeHandler();
   };
 
-  resetPageByReset();
+  resetButton.addEventListener('click', resetButtonClickHandler);
+
 
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
@@ -99,38 +98,71 @@
     var main = document.querySelector('main');
     var success = main.querySelector('.success');
 
-    var closeSuccesMessage = function () {
+    var closeSuccessMessage = function () {
       success.remove();
     };
 
-    var onSuccesMessageEscPress = function (escEvt) {
+    var successMessageEscPressHandler = function (escEvt) {
       if (escEvt.keyCode === window.data.ESC_KEYCODE) {
-        closeSuccesMessage();
+        closeSuccessMessage();
       }
-      window.removeEventListener('keydown', onSuccesMessageEscPress);
+      window.removeEventListener('keydown', successMessageEscPressHandler);
     };
 
-    window.addEventListener('keydown', onSuccesMessageEscPress);
+    window.addEventListener('keydown', successMessageEscPressHandler);
 
     success.addEventListener('click', function () {
-      closeSuccesMessage();
-      success.removeEventListener('click', closeSuccesMessage);
-      window.removeEventListener('keydown', onSuccesMessageEscPress);
+      closeSuccessMessage();
+      success.removeEventListener('click', closeSuccessMessage);
+      window.removeEventListener('keydown', successMessageEscPressHandler);
     });
 
   };
 
-  var createSuccessMessage = function (evt) {
-    evt.preventDefault();
-    window.backend.sendData(new FormData(window.form.ad), sendSuccess, window.data.errorHandler);
-    window.dragandrop.reset();
-    adForm.removeEventListener('submit', createSuccessMessage);
+  var errorHandler = function (errorMessage) {
+    var main = document.querySelector('main');
+    var errorTemplate = document.querySelector('#error')
+      .content
+      .querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    var errorButton = errorElement.querySelector('.error__button');
+
+    errorElement.style.textContent = errorMessage;
+    main.insertAdjacentElement('afterbegin', errorElement);
+
+    var closeErrorMessage = function () {
+      errorElement.remove();
+    };
+
+    var errorMessageEscPressHandler = function (escEvt) {
+      if (escEvt.keyCode === window.data.ESC_KEYCODE) {
+        closeErrorMessage();
+      }
+      window.removeEventListener('keydown', errorMessageEscPressHandler);
+    };
+
+    window.addEventListener('keydown', errorMessageEscPressHandler);
+
+    errorButton.addEventListener('click', function () {
+      closeErrorMessage();
+      errorButton.removeEventListener('click', closeErrorMessage);
+      window.removeEventListener('keydown', errorMessageEscPressHandler);
+    });
+
+
   };
 
-  adForm.addEventListener('submit', createSuccessMessage);
+  var adFormSubmitHandler = function (evt) {
+    evt.preventDefault();
+    window.backend.sendData(new FormData(adForm), sendSuccess, errorHandler);
+    window.dragandrop.reset();
+    adForm.removeEventListener('submit', adFormSubmitHandler);
+  };
+
+  adForm.addEventListener('submit', adFormSubmitHandler);
 
   var sendingForm = function () {
-    changePriceByType();
+    typeSelectChangeHandler();
     changeTime(timeIn, timeOut);
     changeTime(timeOut, timeIn);
     compareRooms(roomNumber);
@@ -141,7 +173,7 @@
   sendingForm();
 
   window.form = {
-    reset: reset,
+    reset: resetButton,
     ad: adForm
   };
 })();
