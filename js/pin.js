@@ -41,7 +41,7 @@
 
   window.pin = {
     activate: function () {
-      window.backend.getData(window.filter.successHandler, window.data.errorHandler);
+      window.backend.getData(window.filter.successHandler, window.form.errorHandler);
     },
 
     create: createPins

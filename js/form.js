@@ -174,6 +174,7 @@
 
   window.form = {
     reset: resetButton,
-    ad: adForm
+    ad: adForm,
+    errorHandler: errorHandler
   };
 })();
