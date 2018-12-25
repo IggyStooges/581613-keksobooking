@@ -44,9 +44,9 @@
     typeSelectChangeHandler();
     evt.preventDefault();
     window.dragandrop.reset();
-    resetButton.removeEventListener('click', resetButtonClickHandler);
     typeSelectChangeHandler();
   };
+  resetButton.removeEventListener('click', resetButtonClickHandler);
 
   resetButton.addEventListener('click', resetButtonClickHandler);
 

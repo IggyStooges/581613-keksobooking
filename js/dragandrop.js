@@ -51,6 +51,7 @@
         mainPinMap.style.left = newCoordX + 'px';
       }
       mainPinMap.style.left = mainPinMap.offsetLeft + 'px';
+      calculateCoordinates();
 
     };
 
@@ -58,7 +59,6 @@
       window.map.activate();
       upEvt.preventDefault();
 
-      calculateCoordinates();
       document.removeEventListener('mousemove', mouseMoveHandler);
       document.removeEventListener('mouseup', mouseUpHandler);
 
