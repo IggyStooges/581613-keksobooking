@@ -6,7 +6,7 @@
   var SUCCESS_CODE = 200;
   var REQUEST_TIMEOUT = 10000;
 
-  var createXmlRequest = function (onLoad, onError, data) {
+  var createHttpRequest = function (onLoad, onError, data) {
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -38,12 +38,11 @@
   };
 
   var getData = function (onLoad, onError) {
-
-    createXmlRequest(onLoad, onError);
+    createHttpRequest(onLoad, onError);
   };
 
   var sendData = function (onLoad, onError, data) {
-    createXmlRequest(onLoad, onError, data);
+    createHttpRequest(onLoad, onError, data);
   };
 
   window.backend = {
