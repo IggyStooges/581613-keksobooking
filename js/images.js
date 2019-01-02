@@ -74,6 +74,45 @@
 
   };
 
+  var handleDrop = function (e) {
+    e.preventDefault();
+    var dt = e.dataTransfer;
+    var files = dt.files;
+
+    var avatar = dt.files[0];
+    var avatarFileName = avatar.name.toLowerCase();
+
+    console.log(dt);
+    console.log(files);
+
+    var isMatches = IMAGES_TYPE.some(function (it) {
+      return avatarFileName.endsWith(it);
+    });
+
+    if (isMatches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        avatarPreview.src = reader.result;
+      });
+
+      reader.readAsDataURL(avatar);
+    }
+  };
+
+  var cons = function (evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    console.log('safadsadasd');
+  };
+
+  var dropArea = document.querySelector('.ad-form-header__drop-zone');
+
+  dropArea.addEventListener('dragenter', cons, false);
+  dropArea.addEventListener('dragleave', cons, false);
+  dropArea.addEventListener('dragover', cons, false);
+  dropArea.addEventListener('drop', handleDrop, false);
+
   window.images = {
     reset: resetImages
   };
