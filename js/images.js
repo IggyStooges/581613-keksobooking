@@ -64,7 +64,6 @@
     evt.preventDefault();
     var images = evt.dataTransfer.files;
     uploadAvatarImage(images);
-    avatarChooser.files = evt.dataTransfer.files;
   };
 
   uploadImages(avatarChooser, avatarDropArea, avatarChooserHandler, avatarDropHandler);
@@ -103,12 +102,9 @@
   };
 
   var photosDropHandler = function (evt) {
-    photosChooser.removeEventListener('change', photosChooserHandler);
     evt.preventDefault();
-    photosChooser.files = evt.dataTransfer.files;
-    var images = photosChooser.files;
+    var images = evt.dataTransfer.files;
     uploadPhotosImage(images);
-    photosChooser.addEventListener('change', photosChooserHandler);
   };
 
   uploadImages(photosChooser, photosDropArea, photosChooserHandler, photosDropHandler);
